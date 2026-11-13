@@ -1,8 +1,11 @@
 @import "tailwindcss";
 
+@source "../src";
+@source "../src/**/*.{js,ts,jsx,tsx}";
+
 @layer base {
   * {
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.12);
   }
   
   html {
@@ -11,7 +14,12 @@
   }
   
   body {
-    background-color: #07070a;
+    background-color: #080914;
+    background-image: 
+      radial-gradient(circle at 50% 0%, rgba(120, 119, 198, 0.22) 0%, transparent 60%),
+      radial-gradient(circle at 10% 40%, rgba(99, 102, 241, 0.12) 0%, transparent 50%),
+      radial-gradient(circle at 90% 70%, rgba(168, 85, 247, 0.12) 0%, transparent 50%);
+    background-attachment: fixed;
     color: #f1f5f9;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     overflow-x: hidden;
@@ -23,80 +31,64 @@
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #07070a;
+  background: #080914;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e1e2d;
+  background: #232542;
   border-radius: 9999px;
-  border: 2px solid #07070a;
+  border: 2px solid #080914;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3b3b54;
+  background: #434775;
 }
 
-/* Glow & Spotlight Utilities */
+/* Dramatic Overhead Spotlight Beam (Matching YouTube Short Reference) */
 .spotlight-cone {
   background: radial-gradient(
-    ellipse 60% 80% at 50% 0%,
-    rgba(120, 119, 198, 0.28) 0%,
-    rgba(99, 102, 241, 0.15) 30%,
-    rgba(168, 85, 247, 0.05) 60%,
-    transparent 85%
-  );
-}
-
-.spotlight-beam-intense {
-  background: conic-gradient(
-    from 180deg at 50% 0%,
-    transparent 40%,
-    rgba(255, 255, 255, 0.18) 48%,
-    rgba(192, 132, 252, 0.35) 50%,
-    rgba(255, 255, 255, 0.18) 52%,
-    transparent 60%
+    ellipse 60% 85% at 50% 0%,
+    rgba(147, 130, 255, 0.35) 0%,
+    rgba(99, 102, 241, 0.2) 35%,
+    rgba(168, 85, 247, 0.08) 65%,
+    transparent 90%
   );
 }
 
 .glass-panel {
-  background: rgba(13, 14, 24, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(14, 16, 32, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .glass-panel-hover {
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .glass-panel-hover:hover {
-  background: rgba(22, 24, 42, 0.85);
-  border-color: rgba(168, 85, 247, 0.35);
-  box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.2);
+  background: rgba(24, 27, 52, 0.85);
+  border-color: rgba(168, 85, 247, 0.45);
+  box-shadow: 0 12px 35px -10px rgba(99, 102, 241, 0.3);
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 50%, #94a3b8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .text-gradient-purple {
-  background: linear-gradient(135deg, #c084fc 0%, #a855f7 50%, #6366f1 100%);
+  background: linear-gradient(135deg, #d8b4fe 0%, #c084fc 40%, #818cf8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .text-gradient-cyan {
-  background: linear-gradient(135deg, #67e8f9 0%, #38bdf8 50%, #818cf8 100%);
+  background: linear-gradient(135deg, #7dd3fc 0%, #38bdf8 50%, #818cf8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.text-stroke {
-  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.3);
-  color: transparent;
-}
-
 .text-stroke-purple {
-  -webkit-text-stroke: 1.5px rgba(192, 132, 252, 0.45);
+  -webkit-text-stroke: 1.5px rgba(192, 132, 252, 0.55);
   color: transparent;
 }
 
@@ -104,41 +96,28 @@
 .bg-grid-pattern {
   background-size: 40px 40px;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
 }
 
 .bg-dots-pattern {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
 @keyframes pulseGlow {
   0%, 100% {
-    opacity: 0.4;
+    opacity: 0.5;
     transform: scale(1);
   }
   50% {
-    opacity: 0.8;
-    transform: scale(1.05);
+    opacity: 0.9;
+    transform: scale(1.08);
   }
 }
 
 .animate-pulse-glow {
-  animation: pulseGlow 6s ease-in-out infinite;
-}
-
-@keyframes floatSlow {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-10px) rotate(1deg);
-  }
-}
-
-.animate-float {
-  animation: floatSlow 5s ease-in-out infinite;
+  animation: pulseGlow 5s ease-in-out infinite;
 }
 
 @keyframes radarSweep {

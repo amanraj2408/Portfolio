@@ -1,265 +1,434 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Radio, Crosshair, ShieldCheck, Activity, Cpu } from "lucide-react";
+import * as THREE from "three";
+import { Radio, Crosshair, Cpu, Eye, Zap, ShieldCheck } from "lucide-react";
 
 export default function HeroVisual3D() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const mountRef = useRef<HTMLDivElement>(null);
   const [telemetry, setTelemetry] = useState({
-    altitude: 124.6,
-    speed: 14.8,
-    heading: 42,
-    satellites: 18,
-    fps: 60,
-    status: "ARMED // TELEMETRY ACTIVE",
+    altitude: 124.5,
+    speed: 14.2,
+    mode: "AUTONOMOUS // TRACKING",
+    battery: 88,
   });
 
-  // Simulated live telemetry fluctuation
+  // Telemetry fluctuation
   useEffect(() => {
-    const interval = setInterval(() => {
+    const timer = setInterval(() => {
       setTelemetry((prev) => ({
         ...prev,
-        altitude: Number((120 + Math.sin(Date.now() / 2000) * 8).toFixed(1)),
-        speed: Number((14 + Math.cos(Date.now() / 1500) * 2.5).toFixed(1)),
-        heading: Math.floor((prev.heading + 1) % 360),
-        satellites: 18 + (Math.random() > 0.8 ? 1 : 0),
-        fps: 59 + Math.round(Math.random()),
-        status: "ARMED // SENTINX LINK OK",
+        altitude: Number((120 + Math.sin(Date.now() / 1800) * 6).toFixed(1)),
+        speed: Number((14 + Math.cos(Date.now() / 1400) * 1.8).toFixed(1)),
+        battery: 88 + Math.round(Math.sin(Date.now() / 20000)),
       }));
-    }, 800);
-    return () => clearInterval(interval);
+    }, 900);
+    return () => clearInterval(timer);
   }, []);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    const container = mountRef.current;
+    if (!container) return;
 
-    let animationFrameId: number;
-    let width = (canvas.width = 480);
-    let height = (canvas.height = 480);
+    let width = container.clientWidth || 500;
+    let height = container.clientHeight || 500;
 
-    const resize = () => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        const size = Math.min(rect.width, 480);
-        width = canvas.width = size;
-        height = canvas.height = size;
-      }
-    };
-    resize();
-    window.addEventListener("resize", resize);
+    // 1. Scene, Camera, Renderer
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+    camera.position.set(0, 0.8, 5.8);
 
-    // Mouse tracking
-    let targetRotationX = 0;
-    let targetRotationY = 0;
-    let rotationX = 0;
-    let rotationY = 0;
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.2;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    container.appendChild(renderer.domElement);
+
+    // 2. Lights - Cinematic Spotlight & Neon Rim (matching the reference video!)
+    const ambientLight = new THREE.AmbientLight(0x241d3d, 1.8);
+    scene.add(ambientLight);
+
+    // Top Overhead Spotlight (matches the visual reference spotlight beam!)
+    const overheadSpot = new THREE.SpotLight(0xffffff, 8, 12, Math.PI / 4, 0.5, 1);
+    overheadSpot.position.set(0, 6, 1.5);
+    overheadSpot.target.position.set(0, 0, 0);
+    scene.add(overheadSpot);
+    scene.add(overheadSpot.target);
+
+    // Purple Rim Light from Back
+    const purpleRim = new THREE.DirectionalLight(0xc084fc, 5);
+    purpleRim.position.set(-3, 2, -3);
+    scene.add(purpleRim);
+
+    // Cyan Rim Light from Opposite Side
+    const cyanRim = new THREE.DirectionalLight(0x38bdf8, 3.5);
+    cyanRim.position.set(3, 1, -2);
+    scene.add(cyanRim);
+
+    // Front soft fill
+    const frontFill = new THREE.PointLight(0xa78bfa, 2, 8);
+    frontFill.position.set(0, 1, 3);
+    scene.add(frontFill);
+
+    // 3. Materials
+    const skinMaterial = new THREE.MeshStandardMaterial({
+      color: 0xe0a97a,
+      roughness: 0.55,
+      metalness: 0.05,
+    });
+
+    const capMaterial = new THREE.MeshStandardMaterial({
+      color: 0x181824,
+      roughness: 0.35,
+      metalness: 0.2,
+    });
+
+    const capAccentMaterial = new THREE.MeshStandardMaterial({
+      color: 0xa855f7,
+      roughness: 0.3,
+      metalness: 0.5,
+      emissive: 0x581c87,
+      emissiveIntensity: 0.3,
+    });
+
+    const jacketMaterial = new THREE.MeshStandardMaterial({
+      color: 0x11121d,
+      roughness: 0.45,
+      metalness: 0.15,
+    });
+
+    const neonPurpleGlow = new THREE.MeshStandardMaterial({
+      color: 0xc084fc,
+      emissive: 0xa855f7,
+      emissiveIntensity: 1.2,
+      roughness: 0.2,
+    });
+
+    const neonCyanGlow = new THREE.MeshStandardMaterial({
+      color: 0x38bdf8,
+      emissive: 0x06b6d4,
+      emissiveIntensity: 1.4,
+      roughness: 0.2,
+    });
+
+    const droneChassisMaterial = new THREE.MeshStandardMaterial({
+      color: 0x0f111a,
+      roughness: 0.3,
+      metalness: 0.7,
+    });
+
+    const propellerMaterial = new THREE.MeshStandardMaterial({
+      color: 0x38bdf8,
+      transparent: true,
+      opacity: 0.6,
+      roughness: 0.1,
+      metalness: 0.3,
+    });
+
+    // 4. Character Group (Developer "Sticker Boy" avatar as in reference video!)
+    const characterGroup = new THREE.Group();
+    characterGroup.position.set(0, -0.6, 0);
+    scene.add(characterGroup);
+
+    // Torso / Stylish Turtleneck Jacket
+    const torsoGeo = new THREE.CylinderGeometry(0.7, 0.95, 1.3, 32);
+    const torsoMesh = new THREE.Mesh(torsoGeo, jacketMaterial);
+    torsoMesh.position.set(0, 0, 0);
+    characterGroup.add(torsoMesh);
+
+    // Collar trim neon
+    const collarGeo = new THREE.TorusGeometry(0.5, 0.05, 16, 32);
+    const collarMesh = new THREE.Mesh(collarGeo, neonPurpleGlow);
+    collarMesh.rotation.x = Math.PI / 2;
+    collarMesh.position.set(0, 0.68, 0);
+    characterGroup.add(collarMesh);
+
+    // Head Group (rotates with mouse)
+    const headGroup = new THREE.Group();
+    headGroup.position.set(0, 1.25, 0);
+    characterGroup.add(headGroup);
+
+    // Neck
+    const neckGeo = new THREE.CylinderGeometry(0.24, 0.28, 0.4, 24);
+    const neckMesh = new THREE.Mesh(neckGeo, skinMaterial);
+    neckMesh.position.set(0, -0.22, 0);
+    headGroup.add(neckMesh);
+
+    // Head Mesh (stylized rounded developer head)
+    const headGeo = new THREE.SphereGeometry(0.56, 32, 32);
+    headGeo.scale(1, 1.08, 0.98);
+    const headMesh = new THREE.Mesh(headGeo, skinMaterial);
+    headGroup.add(headMesh);
+
+    // Cap / Backward Beanie Cap (matching video avatar!)
+    const capDomeGeo = new THREE.SphereGeometry(0.58, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.55);
+    const capDomeMesh = new THREE.Mesh(capDomeGeo, capMaterial);
+    capDomeMesh.position.set(0, 0.1, -0.02);
+    headGroup.add(capDomeMesh);
+
+    // Cap Brim / Visor (backward tilt as in reference)
+    const brimGeo = new THREE.CylinderGeometry(0.6, 0.65, 0.06, 32, 1, false, 0, Math.PI);
+    const brimMesh = new THREE.Mesh(brimGeo, capAccentMaterial);
+    brimMesh.rotation.x = 0.2;
+    brimMesh.rotation.y = Math.PI;
+    brimMesh.position.set(0, 0.18, -0.42);
+    headGroup.add(brimMesh);
+
+    // Cyber Headphones (Band & Ear Cups with glowing rings)
+    const bandGeo = new THREE.TorusGeometry(0.64, 0.05, 16, 32, Math.PI);
+    const bandMesh = new THREE.Mesh(bandGeo, capMaterial);
+    bandMesh.position.set(0, 0.22, 0);
+    headGroup.add(bandMesh);
+
+    // Left Ear Cup
+    const cupGeo = new THREE.CylinderGeometry(0.22, 0.22, 0.15, 24);
+    const leftCup = new THREE.Mesh(cupGeo, capMaterial);
+    leftCup.rotation.z = Math.PI / 2;
+    leftCup.position.set(-0.58, 0.2, 0);
+    headGroup.add(leftCup);
+
+    const leftGlowRing = new THREE.Mesh(new THREE.TorusGeometry(0.18, 0.03, 16, 32), neonPurpleGlow);
+    leftGlowRing.rotation.y = Math.PI / 2;
+    leftGlowRing.position.set(-0.66, 0.2, 0);
+    headGroup.add(leftGlowRing);
+
+    // Right Ear Cup
+    const rightCup = leftCup.clone();
+    rightCup.position.set(0.58, 0.2, 0);
+    headGroup.add(rightCup);
+
+    const rightGlowRing = new THREE.Mesh(new THREE.TorusGeometry(0.18, 0.03, 16, 32), neonPurpleGlow);
+    rightGlowRing.rotation.y = Math.PI / 2;
+    rightGlowRing.position.set(0.66, 0.2, 0);
+    headGroup.add(rightGlowRing);
+
+    // Eyes (Friendly Stylized 3D Developer Eyes)
+    const eyeGeo = new THREE.SphereGeometry(0.09, 16, 16);
+    const eyeMat = new THREE.MeshBasicMaterial({ color: 0x111827 });
+    
+    const leftEye = new THREE.Mesh(eyeGeo, eyeMat);
+    leftEye.position.set(-0.19, 0.08, 0.5);
+    headGroup.add(leftEye);
+
+    const rightEye = leftEye.clone();
+    rightEye.position.set(0.19, 0.08, 0.5);
+    headGroup.add(rightEye);
+
+    // Subtle Eye Highlights
+    const pupilHighlightGeo = new THREE.SphereGeometry(0.03, 8, 8);
+    const pupilMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    const hlLeft = new THREE.Mesh(pupilHighlightGeo, pupilMat);
+    hlLeft.position.set(-0.16, 0.11, 0.58);
+    headGroup.add(hlLeft);
+
+    const hlRight = hlLeft.clone();
+    hlRight.position.set(0.22, 0.11, 0.58);
+    headGroup.add(hlRight);
+
+    // Confident Smile (stylized curved arc)
+    const smileGeo = new THREE.TorusGeometry(0.14, 0.03, 12, 16, Math.PI * 0.7);
+    const smileMesh = new THREE.Mesh(smileGeo, new THREE.MeshBasicMaterial({ color: 0x4a2810 }));
+    smileMesh.rotation.z = Math.PI * 1.15;
+    smileMesh.position.set(0, -0.16, 0.51);
+    headGroup.add(smileMesh);
+
+    // 5. High-Tech 3D Autonomous Drone (Sentinx OS / Aerial Companion)
+    const droneGroup = new THREE.Group();
+    scene.add(droneGroup);
+
+    // Central Carbon Body
+    const droneBodyGeo = new THREE.BoxGeometry(0.35, 0.09, 0.35);
+    const droneBodyMesh = new THREE.Mesh(droneBodyGeo, droneChassisMaterial);
+    droneGroup.add(droneBodyMesh);
+
+    // Top Dome Sensor Cap
+    const domeGeo = new THREE.SphereGeometry(0.12, 16, 16, 0, Math.PI * 2, 0, Math.PI / 2);
+    const domeMesh = new THREE.Mesh(domeGeo, neonPurpleGlow);
+    domeMesh.position.set(0, 0.04, 0);
+    droneGroup.add(domeMesh);
+
+    // 4 Diagonal Motor Arms & Propellers
+    const armPositions = [
+      { x: 0.32, z: 0.32, angle: Math.PI / 4 },
+      { x: -0.32, z: 0.32, angle: -Math.PI / 4 },
+      { x: 0.32, z: -0.32, angle: -Math.PI / 4 },
+      { x: -0.32, z: -0.32, angle: Math.PI / 4 },
+    ];
+
+    const propellers: THREE.Mesh[] = [];
+
+    armPositions.forEach((pos, i) => {
+      // Carbon Arm Strut
+      const armGeo = new THREE.CylinderGeometry(0.025, 0.025, 0.4, 8);
+      const armMesh = new THREE.Mesh(armGeo, droneChassisMaterial);
+      armMesh.rotation.z = Math.PI / 2;
+      armMesh.rotation.y = pos.angle;
+      armMesh.position.set(pos.x * 0.5, 0, pos.z * 0.5);
+      droneGroup.add(armMesh);
+
+      // Motor Hub
+      const hubGeo = new THREE.CylinderGeometry(0.05, 0.05, 0.08, 16);
+      const hubMesh = new THREE.Mesh(hubGeo, droneChassisMaterial);
+      hubMesh.position.set(pos.x, 0.02, pos.z);
+      droneGroup.add(hubMesh);
+
+      // LED Light on motor
+      const ledGeo = new THREE.SphereGeometry(0.025, 8, 8);
+      const ledMat = i < 2 ? neonCyanGlow : neonPurpleGlow;
+      const ledMesh = new THREE.Mesh(ledGeo, ledMat);
+      ledMesh.position.set(pos.x, -0.03, pos.z);
+      droneGroup.add(ledMesh);
+
+      // Propeller (Spinning disc / blades)
+      const propGeo = new THREE.BoxGeometry(0.3, 0.008, 0.035);
+      const propMesh = new THREE.Mesh(propGeo, propellerMaterial);
+      propMesh.position.set(pos.x, 0.07, pos.z);
+      droneGroup.add(propMesh);
+      propellers.push(propMesh);
+    });
+
+    // Camera Gimbal below drone
+    const gimbalGeo = new THREE.SphereGeometry(0.06, 16, 16);
+    const gimbalMesh = new THREE.Mesh(gimbalGeo, neonCyanGlow);
+    gimbalMesh.position.set(0, -0.07, 0.08);
+    droneGroup.add(gimbalMesh);
+
+    // 6. Orbital Holographic Grid Rings around the Scene
+    const orbitRingGeo = new THREE.TorusGeometry(2.2, 0.012, 16, 100);
+    const orbitRingMesh = new THREE.Mesh(
+      orbitRingGeo,
+      new THREE.MeshBasicMaterial({ color: 0xa855f7, transparent: true, opacity: 0.25 })
+    );
+    orbitRingMesh.rotation.x = Math.PI / 2.3;
+    scene.add(orbitRingMesh);
+
+    const orbitRingInnerGeo = new THREE.TorusGeometry(1.6, 0.008, 16, 80);
+    const orbitRingInnerMesh = new THREE.Mesh(
+      orbitRingInnerGeo,
+      new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.3 })
+    );
+    orbitRingInnerMesh.rotation.x = Math.PI / 1.8;
+    scene.add(orbitRingInnerMesh);
+
+    // Mouse Tracking Logic
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetHeadRotY = 0;
+    let targetHeadRotX = 0;
 
     const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      targetRotationY = (x / rect.width) * 0.8;
-      targetRotationX = (-y / rect.height) * 0.8;
+      const rect = container.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
+      mouseX = x;
+      mouseY = y;
+      targetHeadRotY = x * 0.45;
+      targetHeadRotX = -y * 0.25;
     };
 
     window.addEventListener("mousemove", handleMouseMove);
 
-    // Particle nodes for a 3D holographic sphere
-    const NUM_POINTS = 160;
-    const radius = 140;
-    const points: { x: number; y: number; z: number; baseAngle: number; speed: number; size: number; hue: number }[] = [];
-
-    for (let i = 0; i < NUM_POINTS; i++) {
-      const theta = Math.acos(1 - (2 * (i + 0.5)) / NUM_POINTS);
-      const phi = Math.PI * (1 + Math.sqrt(5)) * (i + 0.5);
-      points.push({
-        x: radius * Math.sin(theta) * Math.cos(phi),
-        y: radius * Math.sin(theta) * Math.sin(phi),
-        z: radius * Math.cos(theta),
-        baseAngle: phi,
-        speed: 0.003 + Math.random() * 0.002,
-        size: 1.2 + Math.random() * 1.8,
-        hue: i % 3 === 0 ? 270 : i % 3 === 1 ? 220 : 190, // purple, indigo, cyan
-      });
-    }
-
-    let time = 0;
-
-    const render = () => {
-      time += 0.015;
-      rotationX += (targetRotationX - rotationX) * 0.05;
-      rotationY += (targetRotationY - rotationY) * 0.05;
-
-      ctx.clearRect(0, 0, width, height);
-
-      const cx = width / 2;
-      const cy = height / 2;
-
-      // Draw background cybernetic rings
-      ctx.save();
-      ctx.translate(cx, cy);
-
-      // Rotating Outer Radar Arc
-      ctx.strokeStyle = "rgba(168, 85, 247, 0.15)";
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.arc(0, 0, radius + 40, time * 0.5, time * 0.5 + Math.PI * 1.2);
-      ctx.stroke();
-
-      ctx.strokeStyle = "rgba(99, 102, 241, 0.25)";
-      ctx.beginPath();
-      ctx.arc(0, 0, radius + 25, -time * 0.7, -time * 0.7 + Math.PI * 0.8);
-      ctx.stroke();
-
-      // Outer dashed circle
-      ctx.setLineDash([4, 8]);
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
-      ctx.beginPath();
-      ctx.arc(0, 0, radius + 55, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      // Center glowing core
-      const coreGradient = ctx.createRadialGradient(0, 0, 5, 0, 0, radius * 0.8);
-      coreGradient.addColorStop(0, "rgba(168, 85, 247, 0.25)");
-      coreGradient.addColorStop(0.5, "rgba(99, 102, 241, 0.1)");
-      coreGradient.addColorStop(1, "rgba(7, 7, 10, 0)");
-      ctx.fillStyle = coreGradient;
-      ctx.beginPath();
-      ctx.arc(0, 0, radius * 0.8, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Rotate and project 3D points
-      const rotY = time * 0.3 + rotationY;
-      const rotX = Math.sin(time * 0.2) * 0.2 + rotationX;
-
-      const projectedPoints: { x2d: number; y2d: number; scale: number; p: typeof points[0] }[] = [];
-
-      for (let i = 0; i < points.length; i++) {
-        const p = points[i];
-        
-        // Y-axis rotation
-        const cosY = Math.cos(rotY);
-        const sinY = Math.sin(rotY);
-        const x1 = p.x * cosY - p.z * sinY;
-        const z1 = p.x * sinY + p.z * cosY;
-
-        // X-axis rotation
-        const cosX = Math.cos(rotX);
-        const sinX = Math.sin(rotX);
-        const y2 = p.y * cosX - z1 * sinX;
-        const z2 = p.y * sinX + z1 * cosX;
-
-        // Perspective projection
-        const fov = 350;
-        const scale = fov / (fov + z2 + 80);
-        const x2d = x1 * scale;
-        const y2d = y2 * scale;
-
-        projectedPoints.push({ x2d, y2d, scale, p });
-      }
-
-      // Sort by depth (back to front)
-      projectedPoints.sort((a, b) => a.scale - b.scale);
-
-      // Draw connection vectors between close nodes
-      for (let i = 0; i < projectedPoints.length; i++) {
-        for (let j = i + 1; j < projectedPoints.length; j++) {
-          const dx = projectedPoints[i].x2d - projectedPoints[j].x2d;
-          const dy = projectedPoints[i].y2d - projectedPoints[j].y2d;
-          const distSq = dx * dx + dy * dy;
-          if (distSq < 1300) {
-            const alpha = (1 - distSq / 1300) * 0.18 * projectedPoints[i].scale;
-            ctx.strokeStyle = `rgba(168, 85, 247, ${alpha})`;
-            ctx.lineWidth = 0.8;
-            ctx.beginPath();
-            ctx.moveTo(projectedPoints[i].x2d, projectedPoints[i].y2d);
-            ctx.lineTo(projectedPoints[j].x2d, projectedPoints[j].y2d);
-            ctx.stroke();
-          }
-        }
-      }
-
-      // Draw points with luminous glow
-      for (const pt of projectedPoints) {
-        const alpha = Math.max(0.15, Math.min(1, pt.scale * pt.scale * 0.9));
-        ctx.fillStyle = `hsla(${pt.p.hue}, 90%, 65%, ${alpha})`;
-        ctx.beginPath();
-        ctx.arc(pt.x2d, pt.y2d, pt.p.size * pt.scale, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Extra flare on foreground nodes
-        if (pt.scale > 1.1) {
-          ctx.fillStyle = `hsla(${pt.p.hue}, 100%, 80%, ${alpha * 0.5})`;
-          ctx.beginPath();
-          ctx.arc(pt.x2d, pt.y2d, pt.p.size * pt.scale * 2, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
-
-      // Draw Crosshair & Telemetry Lock Ring
-      ctx.strokeStyle = "rgba(147, 197, 253, 0.4)";
-      ctx.lineWidth = 1;
-      const chSize = 12;
-      ctx.beginPath();
-      ctx.moveTo(-chSize, 0);
-      ctx.lineTo(chSize, 0);
-      ctx.moveTo(0, -chSize);
-      ctx.lineTo(0, chSize);
-      ctx.stroke();
-
-      ctx.restore();
-
-      animationFrameId = requestAnimationFrame(render);
+    // Resize Handler
+    const handleResize = () => {
+      if (!container) return;
+      width = container.clientWidth;
+      height = container.clientHeight;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
     };
 
-    render();
+    window.addEventListener("resize", handleResize);
+
+    // 7. Animation Loop
+    let animationFrameId: number;
+    let clock = new THREE.Clock();
+
+    const animate = () => {
+      animationFrameId = requestAnimationFrame(animate);
+      const elapsed = clock.getElapsedTime();
+
+      // Smooth Head Mouse Tracking
+      headGroup.rotation.y += (targetHeadRotY - headGroup.rotation.y) * 0.08;
+      headGroup.rotation.x += (targetHeadRotX - headGroup.rotation.x) * 0.08;
+
+      // Subtle breathing motion for character
+      characterGroup.position.y = -0.6 + Math.sin(elapsed * 1.5) * 0.03;
+
+      // Drone Orbit Animation around the Developer Avatar!
+      const droneRadius = 1.65;
+      const droneSpeed = 0.9;
+      const droneAngle = elapsed * droneSpeed;
+
+      const droneX = Math.cos(droneAngle) * droneRadius;
+      const droneZ = Math.sin(droneAngle) * (droneRadius * 0.8) + 0.3;
+      const droneY = 0.4 + Math.sin(elapsed * 2.5) * 0.18;
+
+      droneGroup.position.set(droneX, droneY, droneZ);
+
+      // Drone Banking / Pitch Tilting as it maneuvers
+      droneGroup.rotation.y = -droneAngle + Math.PI / 2;
+      droneGroup.rotation.z = Math.sin(elapsed * 2) * 0.12;
+      droneGroup.rotation.x = Math.cos(elapsed * 2) * 0.1;
+
+      // Rapidly spin propellers
+      propellers.forEach((prop) => {
+        prop.rotation.y += 0.45;
+      });
+
+      // Slowly rotate orbital cyber rings
+      orbitRingMesh.rotation.z += 0.003;
+      orbitRingInnerMesh.rotation.z -= 0.004;
+
+      renderer.render(scene, camera);
+    };
+
+    animate();
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("resize", handleResize);
+      if (renderer.domElement && container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement);
+      }
+      renderer.dispose();
     };
   }, []);
 
   return (
     <div
-      ref={containerRef}
-      className="relative flex items-center justify-center w-full max-w-[480px] aspect-square mx-auto select-none"
+      ref={mountRef}
+      className="relative flex items-center justify-center w-full max-w-[520px] aspect-square mx-auto select-none"
     >
       {/* Background Radial Glow */}
-      <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-purple-600/20 via-indigo-500/15 to-cyan-500/10 blur-3xl -z-10 animate-pulse-glow" />
+      <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-purple-600/30 via-indigo-500/20 to-cyan-500/20 blur-3xl -z-10 animate-pulse-glow" />
 
-      {/* Interactive 3D Canvas */}
-      <canvas
-        ref={canvasRef}
-        className="w-full h-full cursor-grab active:cursor-grabbing transition-transform hover:scale-[1.02]"
-      />
-
-      {/* Floating HUD Telemetry Pill - Top Left */}
-      <div className="absolute top-4 left-0 sm:-left-4 glass-panel px-3 py-1.5 rounded-xl border border-white/10 text-[11px] font-mono text-slate-300 shadow-xl flex items-center gap-2 backdrop-blur-md">
-        <Radio className="w-3.5 h-3.5 text-indigo-400 animate-pulse" />
-        <span className="text-slate-400">TELEMETRY:</span>
+      {/* Floating HUD Telemetry Badge - Top Left */}
+      <div className="absolute top-4 -left-2 sm:-left-6 glass-panel px-3.5 py-2 rounded-2xl border border-white/15 text-[11px] font-mono text-slate-200 shadow-2xl flex items-center gap-2 backdrop-blur-xl">
+        <span className="flex h-2 w-2 relative">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+        </span>
+        <span className="text-purple-300 font-bold">DRONE 01:</span>
         <span className="text-emerald-400 font-semibold">{telemetry.altitude}m ALT</span>
       </div>
 
-      {/* Floating HUD Telemetry Pill - Bottom Right */}
-      <div className="absolute bottom-4 right-0 sm:-right-4 glass-panel px-3 py-1.5 rounded-xl border border-white/10 text-[11px] font-mono text-slate-300 shadow-xl flex items-center gap-2 backdrop-blur-md">
-        <Crosshair className="w-3.5 h-3.5 text-purple-400" />
-        <span className="text-slate-400">YOLOv8:</span>
-        <span className="text-purple-300 font-semibold">28 FPS INFERENCE</span>
+      {/* Floating HUD Telemetry Badge - Bottom Right */}
+      <div className="absolute bottom-6 -right-2 sm:-right-6 glass-panel px-3.5 py-2 rounded-2xl border border-white/15 text-[11px] font-mono text-slate-200 shadow-2xl flex items-center gap-2 backdrop-blur-xl">
+        <Radio className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+        <span className="text-slate-400">SENTINX OS:</span>
+        <span className="text-cyan-300 font-semibold">{telemetry.speed} m/s</span>
       </div>
 
-      {/* Floating HUD Status Pill - Bottom Left */}
-      <div className="hidden sm:flex absolute -bottom-6 left-6 glass-panel px-3 py-1 rounded-full border border-white/10 text-[10px] font-mono text-slate-400 items-center gap-1.5">
-        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-        <span>MQTT / WEBSOCKET // LIVE</span>
+      {/* Floating 3D Interaction Hint - Bottom Left */}
+      <div className="hidden sm:flex absolute -bottom-4 left-6 glass-panel px-3 py-1.5 rounded-full border border-purple-500/30 text-[10px] font-mono text-purple-300 items-center gap-1.5 shadow-lg shadow-purple-950/50">
+        <Eye className="w-3 h-3 text-purple-400" />
+        <span>3D Scene • Cursor-Interactive</span>
       </div>
     </div>
   );
 }
-

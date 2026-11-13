@@ -72,7 +72,7 @@ export default function ContactSection({ onOpenResume }: ContactSectionProps) {
       {/* Background ambient light */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-purple-900/15 rounded-full blur-[160px] pointer-events-none -z-10" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16">
         
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-16">
@@ -197,7 +197,7 @@ export default function ContactSection({ onOpenResume }: ContactSectionProps) {
                 className="w-full py-3 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-600 hover:opacity-95 text-white font-medium text-xs flex items-center justify-center gap-2 shadow-lg shadow-purple-900/30 transition-all cursor-pointer"
               >
                 <FileText className="w-4 h-4" />
-                <span>View & Download ATS Resume</span>
+                <span>View & Download Resume</span>
               </button>
 
             </div>

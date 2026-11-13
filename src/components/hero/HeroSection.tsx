@@ -51,7 +51,7 @@ export default function HeroSection({ onOpenResume }: HeroSectionProps) {
       {/* Grid background texture */}
       <div className="absolute inset-0 bg-grid-pattern opacity-40 -z-20 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 w-full z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
           {/* Left Column: Personal Brand, Hero Typography, Dynamic Roles, CTAs */}
