@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 import { FEATURED_PROJECTS, Project } from "@/data/portfolioData";
 import { GithubIcon } from "@/components/ui/Icons";
-import DroneSimulator from "./DroneSimulator";
-import VisionSimulator from "./VisionSimulator";
+import Drone3DViewer from "./Drone3DViewer";
+import SecurityCamera3DViewer from "./SecurityCamera3DViewer";
 import FreshkartSimulator from "./FreshkartSimulator";
 import ProjectModal from "../modals/ProjectModal";
 import { 
@@ -21,12 +21,12 @@ import {
 export default function ProjectsSection() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const renderSimulator = (projectId: string) => {
+  const renderVisual = (projectId: string) => {
     switch (projectId) {
       case "sentinx-os":
-        return <DroneSimulator />;
+        return <Drone3DViewer />;
       case "flytsense":
-        return <VisionSimulator />;
+        return <SecurityCamera3DViewer />;
       case "freshkart":
         return <FreshkartSimulator />;
       default:
@@ -44,12 +44,12 @@ export default function ProjectsSection() {
         
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-purple-300 mb-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-purple-300 mb-3 shadow-inner">
             <Sparkles className="w-3.5 h-3.5 text-purple-400" />
-            <span>03 // FEATURED WORK</span>
+            <span>02 // FEATURED SYSTEMS</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
-            Mission-Critical <span className="text-gradient-purple">Systems</span>
+            Mission-Critical <span className="text-gradient-purple">Architectures</span>
           </h2>
           <p className="mt-4 text-slate-400 max-w-2xl text-sm sm:text-base">
             Deep dive into production-grade systems spanning autonomous drone telemetry, computer vision intrusion detection, and high-concurrency quick-commerce.
@@ -149,10 +149,10 @@ export default function ProjectsSection() {
                     </div>
                   </div>
 
-                  {/* Simulator Container */}
+                  {/* 3D Visual Preview Container */}
                   <div className={`lg:col-span-6 order-1 ${isEven ? "lg:order-2" : "lg:order-1"}`}>
                     <div className="relative rounded-2xl p-1 bg-gradient-to-b from-white/15 to-white/5 shadow-2xl">
-                      {renderSimulator(project.id)}
+                      {renderVisual(project.id)}
                     </div>
                   </div>
 
