@@ -5,7 +5,7 @@ import { FEATURED_PROJECTS, Project } from "@/data/portfolioData";
 import { GithubIcon } from "@/components/ui/Icons";
 import Drone3DViewer from "./Drone3DViewer";
 import SecurityCamera3DViewer from "./SecurityCamera3DViewer";
-import FreshkartSimulator from "./FreshkartSimulator";
+import Freshkart3DViewer from "./Freshkart3DViewer";
 import ProjectModal from "../modals/ProjectModal";
 import { 
   Sparkles, 
@@ -28,7 +28,7 @@ export default function ProjectsSection() {
       case "flytsense":
         return <SecurityCamera3DViewer />;
       case "freshkart":
-        return <FreshkartSimulator />;
+        return <Freshkart3DViewer />;
       default:
         return null;
     }
