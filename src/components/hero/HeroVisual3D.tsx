@@ -9,11 +9,9 @@ export default function HeroVisual3D() {
   const [telemetry, setTelemetry] = useState({
     altitude: 124.5,
     speed: 14.2,
-    mode: "AUTONOMOUS // TRACKING",
     battery: 88,
   });
 
-  // Telemetry fluctuation
   useEffect(() => {
     const timer = setInterval(() => {
       setTelemetry((prev) => ({
@@ -35,223 +33,283 @@ export default function HeroVisual3D() {
 
     // 1. Scene, Camera, Renderer
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-    camera.position.set(0, 0.8, 5.8);
+    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
+    camera.position.set(0, 0.4, 4.6);
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.2;
+    renderer.toneMappingExposure = 1.25;
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild(renderer.domElement);
 
-    // 2. Lights - Cinematic Spotlight & Neon Rim (matching the reference video!)
-    const ambientLight = new THREE.AmbientLight(0x241d3d, 1.8);
+    // 2. Studio Lighting (Overhead spotlight + Purple neon rim as in reference video!)
+    const ambientLight = new THREE.AmbientLight(0x2d2b45, 2.0);
     scene.add(ambientLight);
 
-    // Top Overhead Spotlight (matches the visual reference spotlight beam!)
-    const overheadSpot = new THREE.SpotLight(0xffffff, 8, 12, Math.PI / 4, 0.5, 1);
-    overheadSpot.position.set(0, 6, 1.5);
-    overheadSpot.target.position.set(0, 0, 0);
-    scene.add(overheadSpot);
-    scene.add(overheadSpot.target);
+    // Overhead Key Spotlight (volumetric light directly hitting the cap and face)
+    const keySpot = new THREE.SpotLight(0xfff6ea, 9.0, 15, Math.PI / 4, 0.45, 1.2);
+    keySpot.position.set(0, 6.5, 2.0);
+    keySpot.target.position.set(0, 0, 0);
+    keySpot.castShadow = true;
+    scene.add(keySpot);
+    scene.add(keySpot.target);
 
-    // Purple Rim Light from Back
-    const purpleRim = new THREE.DirectionalLight(0xc084fc, 5);
-    purpleRim.position.set(-3, 2, -3);
+    // Signature Purple Rim Light from Back-Left (Iconic glow from the video!)
+    const purpleRim = new THREE.DirectionalLight(0xc084fc, 7.5);
+    purpleRim.position.set(-3.5, 2.5, -3.0);
     scene.add(purpleRim);
 
-    // Cyan Rim Light from Opposite Side
-    const cyanRim = new THREE.DirectionalLight(0x38bdf8, 3.5);
-    cyanRim.position.set(3, 1, -2);
+    // Subtle Cyan Rim Light from Back-Right
+    const cyanRim = new THREE.DirectionalLight(0x38bdf8, 4.5);
+    cyanRim.position.set(3.5, 1.5, -2.5);
     scene.add(cyanRim);
 
-    // Front soft fill
-    const frontFill = new THREE.PointLight(0xa78bfa, 2, 8);
-    frontFill.position.set(0, 1, 3);
-    scene.add(frontFill);
+    // Front Warm Fill Light for realistic human face illumination
+    const warmFill = new THREE.PointLight(0xffeedd, 2.2, 8);
+    warmFill.position.set(0.5, 0.8, 3.2);
+    scene.add(warmFill);
 
-    // 3. Materials
+    // 3. Realistic Materials
     const skinMaterial = new THREE.MeshStandardMaterial({
-      color: 0xe0a97a,
-      roughness: 0.55,
+      color: 0xdf9f74, // Realistic warm human skin tone
+      roughness: 0.6,
       metalness: 0.05,
     });
 
     const capMaterial = new THREE.MeshStandardMaterial({
-      color: 0x181824,
-      roughness: 0.35,
-      metalness: 0.2,
+      color: 0x222433, // Premium charcoal-slate cap
+      roughness: 0.4,
+      metalness: 0.1,
     });
 
-    const capAccentMaterial = new THREE.MeshStandardMaterial({
-      color: 0xa855f7,
+    const capVisorMaterial = new THREE.MeshStandardMaterial({
+      color: 0x9333ea, // Purple visor trim
+      roughness: 0.35,
+      metalness: 0.4,
+      emissive: 0x581c87,
+      emissiveIntensity: 0.25,
+    });
+
+    const hoodieMaterial = new THREE.MeshStandardMaterial({
+      color: 0x141624, // Realistic dark hoodie fabric
+      roughness: 0.75,
+      metalness: 0.05,
+    });
+
+    const eyeWhiteMaterial = new THREE.MeshStandardMaterial({
+      color: 0xffffff,
+      roughness: 0.1,
+    });
+
+    const pupilMaterial = new THREE.MeshStandardMaterial({
+      color: 0x181822,
+      roughness: 0.2,
+    });
+
+    const teethMaterial = new THREE.MeshStandardMaterial({
+      color: 0xffffff,
+      roughness: 0.2,
+    });
+
+    const mouthInsideMaterial = new THREE.MeshStandardMaterial({
+      color: 0x4a1818,
+      roughness: 0.5,
+    });
+
+    const droneWhiteMaterial = new THREE.MeshStandardMaterial({
+      color: 0xf1f5f9,
       roughness: 0.3,
       metalness: 0.5,
-      emissive: 0x581c87,
-      emissiveIntensity: 0.3,
     });
 
-    const jacketMaterial = new THREE.MeshStandardMaterial({
-      color: 0x11121d,
-      roughness: 0.45,
-      metalness: 0.15,
+    const droneDarkMaterial = new THREE.MeshStandardMaterial({
+      color: 0x0f172a,
+      roughness: 0.4,
+      metalness: 0.8,
     });
 
-    const neonPurpleGlow = new THREE.MeshStandardMaterial({
+    const neonCyan = new THREE.MeshStandardMaterial({
+      color: 0x38bdf8,
+      emissive: 0x0ea5e9,
+      emissiveIntensity: 1.5,
+      roughness: 0.2,
+    });
+
+    const neonPurple = new THREE.MeshStandardMaterial({
       color: 0xc084fc,
-      emissive: 0xa855f7,
-      emissiveIntensity: 1.2,
+      emissive: 0x9333ea,
+      emissiveIntensity: 1.5,
       roughness: 0.2,
     });
 
-    const neonCyanGlow = new THREE.MeshStandardMaterial({
-      color: 0x38bdf8,
-      emissive: 0x06b6d4,
-      emissiveIntensity: 1.4,
-      roughness: 0.2,
-    });
-
-    const droneChassisMaterial = new THREE.MeshStandardMaterial({
-      color: 0x0f111a,
-      roughness: 0.3,
-      metalness: 0.7,
-    });
-
-    const propellerMaterial = new THREE.MeshStandardMaterial({
-      color: 0x38bdf8,
-      transparent: true,
-      opacity: 0.6,
-      roughness: 0.1,
-      metalness: 0.3,
-    });
-
-    // 4. Character Group (Developer "Sticker Boy" avatar as in reference video!)
+    // 4. Character Model (Human Developer "Sticker Boy" matching the YouTube Short!)
     const characterGroup = new THREE.Group();
-    characterGroup.position.set(0, -0.6, 0);
+    characterGroup.position.set(0, -0.65, 0);
     scene.add(characterGroup);
 
-    // Torso / Stylish Turtleneck Jacket
-    const torsoGeo = new THREE.CylinderGeometry(0.7, 0.95, 1.3, 32);
-    const torsoMesh = new THREE.Mesh(torsoGeo, jacketMaterial);
-    torsoMesh.position.set(0, 0, 0);
-    characterGroup.add(torsoMesh);
+    // Torso: Shoulders & Dark Hoodie
+    const hoodieGeo = new THREE.CylinderGeometry(0.72, 0.98, 1.25, 32);
+    const hoodieMesh = new THREE.Mesh(hoodieGeo, hoodieMaterial);
+    hoodieMesh.position.set(0, 0, 0);
+    characterGroup.add(hoodieMesh);
 
-    // Collar trim neon
-    const collarGeo = new THREE.TorusGeometry(0.5, 0.05, 16, 32);
-    const collarMesh = new THREE.Mesh(collarGeo, neonPurpleGlow);
-    collarMesh.rotation.x = Math.PI / 2;
-    collarMesh.position.set(0, 0.68, 0);
-    characterGroup.add(collarMesh);
+    // Hoodie Collar / Hood Fold behind neck
+    const hoodCollarGeo = new THREE.TorusGeometry(0.54, 0.12, 16, 32);
+    const hoodCollarMesh = new THREE.Mesh(hoodCollarGeo, hoodieMaterial);
+    hoodCollarMesh.rotation.x = Math.PI / 2.2;
+    hoodCollarMesh.position.set(0, 0.65, -0.05);
+    characterGroup.add(hoodCollarMesh);
 
-    // Head Group (rotates with mouse)
+    // Head Pivot Group (Rotates and tracks cursor in 3D!)
     const headGroup = new THREE.Group();
-    headGroup.position.set(0, 1.25, 0);
+    headGroup.position.set(0, 1.2, 0);
     characterGroup.add(headGroup);
 
     // Neck
-    const neckGeo = new THREE.CylinderGeometry(0.24, 0.28, 0.4, 24);
+    const neckGeo = new THREE.CylinderGeometry(0.24, 0.28, 0.45, 24);
     const neckMesh = new THREE.Mesh(neckGeo, skinMaterial);
     neckMesh.position.set(0, -0.22, 0);
     headGroup.add(neckMesh);
 
-    // Head Mesh (stylized rounded developer head)
-    const headGeo = new THREE.SphereGeometry(0.56, 32, 32);
-    headGeo.scale(1, 1.08, 0.98);
-    const headMesh = new THREE.Mesh(headGeo, skinMaterial);
-    headGroup.add(headMesh);
+    // Cranium / Face (Proper human facial proportions)
+    const faceGeo = new THREE.SphereGeometry(0.54, 32, 32);
+    faceGeo.scale(1, 1.15, 0.98);
+    const faceMesh = new THREE.Mesh(faceGeo, skinMaterial);
+    headGroup.add(faceMesh);
 
-    // Cap / Backward Beanie Cap (matching video avatar!)
-    const capDomeGeo = new THREE.SphereGeometry(0.58, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.55);
-    const capDomeMesh = new THREE.Mesh(capDomeGeo, capMaterial);
-    capDomeMesh.position.set(0, 0.1, -0.02);
+    // Chin / Jaw definition
+    const chinGeo = new THREE.SphereGeometry(0.22, 24, 24);
+    chinGeo.scale(1.2, 0.8, 1);
+    const chinMesh = new THREE.Mesh(chinGeo, skinMaterial);
+    chinMesh.position.set(0, -0.38, 0.35);
+    headGroup.add(chinMesh);
+
+    // Human Ears
+    const earGeo = new THREE.SphereGeometry(0.14, 16, 16);
+    earGeo.scale(0.5, 1, 0.8);
+    const leftEar = new THREE.Mesh(earGeo, skinMaterial);
+    leftEar.position.set(-0.55, 0, 0);
+    leftEar.rotation.y = 0.2;
+    headGroup.add(leftEar);
+
+    const rightEar = leftEar.clone();
+    rightEar.position.set(0.55, 0, 0);
+    rightEar.rotation.y = -0.2;
+    headGroup.add(rightEar);
+
+    // Realistic Nose
+    const noseGeo = new THREE.ConeGeometry(0.09, 0.24, 16);
+    noseGeo.scale(0.9, 1, 0.9);
+    const noseMesh = new THREE.Mesh(noseGeo, skinMaterial);
+    noseMesh.rotation.x = -Math.PI / 2.3;
+    noseMesh.position.set(0, -0.02, 0.58);
+    headGroup.add(noseMesh);
+
+    // Expressive Eyes (Sclera + Iris + Highlight as in reference avatar!)
+    const eyeWhiteGeo = new THREE.SphereGeometry(0.11, 24, 24);
+    eyeWhiteGeo.scale(1.1, 0.9, 0.7);
+
+    // Left Eye
+    const leftSclera = new THREE.Mesh(eyeWhiteGeo, eyeWhiteMaterial);
+    leftSclera.position.set(-0.19, 0.08, 0.48);
+    headGroup.add(leftSclera);
+
+    const pupilGeo = new THREE.SphereGeometry(0.055, 16, 16);
+    const leftPupil = new THREE.Mesh(pupilGeo, pupilMaterial);
+    leftPupil.position.set(-0.19, 0.08, 0.545);
+    headGroup.add(leftPupil);
+
+    const shineGeo = new THREE.SphereGeometry(0.02, 8, 8);
+    const leftShine = new THREE.Mesh(shineGeo, eyeWhiteMaterial);
+    leftShine.position.set(-0.17, 0.1, 0.58);
+    headGroup.add(leftShine);
+
+    // Right Eye
+    const rightSclera = leftSclera.clone();
+    rightSclera.position.set(0.19, 0.08, 0.48);
+    headGroup.add(rightSclera);
+
+    const rightPupil = leftPupil.clone();
+    rightPupil.position.set(0.19, 0.08, 0.545);
+    headGroup.add(rightPupil);
+
+    const rightShine = leftShine.clone();
+    rightShine.position.set(0.21, 0.1, 0.58);
+    headGroup.add(rightShine);
+
+    // Eyebrows
+    const browGeo = new THREE.BoxGeometry(0.18, 0.035, 0.04);
+    const browMat = new THREE.MeshStandardMaterial({ color: 0x271910, roughness: 0.8 });
+    const leftBrow = new THREE.Mesh(browGeo, browMat);
+    leftBrow.position.set(-0.2, 0.22, 0.51);
+    leftBrow.rotation.z = 0.1;
+    headGroup.add(leftBrow);
+
+    const rightBrow = leftBrow.clone();
+    rightBrow.position.set(0.2, 0.22, 0.51);
+    rightBrow.rotation.z = -0.1;
+    headGroup.add(rightBrow);
+
+    // Confident Smiling Mouth (with visible white teeth, as in YouTube reference!)
+    const mouthGroup = new THREE.Group();
+    mouthGroup.position.set(0, -0.22, 0.51);
+    headGroup.add(mouthGroup);
+
+    // Mouth cavity
+    const mouthBackGeo = new THREE.BoxGeometry(0.26, 0.12, 0.05);
+    const mouthBack = new THREE.Mesh(mouthBackGeo, mouthInsideMaterial);
+    mouthGroup.add(mouthBack);
+
+    // Upper Teeth
+    const teethGeo = new THREE.BoxGeometry(0.22, 0.05, 0.06);
+    const teethMesh = new THREE.Mesh(teethGeo, teethMaterial);
+    teethMesh.position.set(0, 0.03, 0.01);
+    mouthGroup.add(teethMesh);
+
+    // Lower Lip
+    const lipGeo = new THREE.TorusGeometry(0.14, 0.025, 12, 24, Math.PI);
+    const lipMesh = new THREE.Mesh(lipGeo, skinMaterial);
+    lipMesh.rotation.z = Math.PI;
+    lipMesh.position.set(0, -0.06, 0.03);
+    mouthGroup.add(lipMesh);
+
+    // Backward Baseball Cap (Signature look from reference video!)
+    const capDome = new THREE.SphereGeometry(0.57, 32, 24, 0, Math.PI * 2, 0, Math.PI * 0.54);
+    const capDomeMesh = new THREE.Mesh(capDome, capMaterial);
+    capDomeMesh.position.set(0, 0.16, -0.02);
     headGroup.add(capDomeMesh);
 
-    // Cap Brim / Visor (backward tilt as in reference)
-    const brimGeo = new THREE.CylinderGeometry(0.6, 0.65, 0.06, 32, 1, false, 0, Math.PI);
-    const brimMesh = new THREE.Mesh(brimGeo, capAccentMaterial);
-    brimMesh.rotation.x = 0.2;
-    brimMesh.rotation.y = Math.PI;
-    brimMesh.position.set(0, 0.18, -0.42);
-    headGroup.add(brimMesh);
+    // Cap Backward Visor
+    const visorGeo = new THREE.CylinderGeometry(0.58, 0.64, 0.06, 32, 1, false, 0, Math.PI);
+    const visorMesh = new THREE.Mesh(visorGeo, capVisorMaterial);
+    visorMesh.rotation.x = 0.22;
+    visorMesh.rotation.y = Math.PI;
+    visorMesh.position.set(0, 0.22, -0.4);
+    headGroup.add(visorMesh);
 
-    // Cyber Headphones (Band & Ear Cups with glowing rings)
-    const bandGeo = new THREE.TorusGeometry(0.64, 0.05, 16, 32, Math.PI);
-    const bandMesh = new THREE.Mesh(bandGeo, capMaterial);
-    bandMesh.position.set(0, 0.22, 0);
-    headGroup.add(bandMesh);
+    // Cap Adjustment Strap / Button on top
+    const capButton = new THREE.Mesh(new THREE.SphereGeometry(0.05, 16, 16), capVisorMaterial);
+    capButton.position.set(0, 0.72, -0.02);
+    headGroup.add(capButton);
 
-    // Left Ear Cup
-    const cupGeo = new THREE.CylinderGeometry(0.22, 0.22, 0.15, 24);
-    const leftCup = new THREE.Mesh(cupGeo, capMaterial);
-    leftCup.rotation.z = Math.PI / 2;
-    leftCup.position.set(-0.58, 0.2, 0);
-    headGroup.add(leftCup);
+    // 5. Realistic 3D Autonomous Drone (Sentinx OS / Companion Quadcopter)
+    const drone = new THREE.Group();
+    scene.add(drone);
 
-    const leftGlowRing = new THREE.Mesh(new THREE.TorusGeometry(0.18, 0.03, 16, 32), neonPurpleGlow);
-    leftGlowRing.rotation.y = Math.PI / 2;
-    leftGlowRing.position.set(-0.66, 0.2, 0);
-    headGroup.add(leftGlowRing);
+    // Drone Aerodynamic Body
+    const droneBody = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.09, 0.38), droneWhiteMaterial);
+    drone.add(droneBody);
 
-    // Right Ear Cup
-    const rightCup = leftCup.clone();
-    rightCup.position.set(0.58, 0.2, 0);
-    headGroup.add(rightCup);
+    // Drone Top Canopy
+    const droneCanopy = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.2, 0.06, 16), droneDarkMaterial);
+    droneCanopy.position.set(0, 0.06, 0);
+    drone.add(droneCanopy);
 
-    const rightGlowRing = new THREE.Mesh(new THREE.TorusGeometry(0.18, 0.03, 16, 32), neonPurpleGlow);
-    rightGlowRing.rotation.y = Math.PI / 2;
-    rightGlowRing.position.set(0.66, 0.2, 0);
-    headGroup.add(rightGlowRing);
-
-    // Eyes (Friendly Stylized 3D Developer Eyes)
-    const eyeGeo = new THREE.SphereGeometry(0.09, 16, 16);
-    const eyeMat = new THREE.MeshBasicMaterial({ color: 0x111827 });
-    
-    const leftEye = new THREE.Mesh(eyeGeo, eyeMat);
-    leftEye.position.set(-0.19, 0.08, 0.5);
-    headGroup.add(leftEye);
-
-    const rightEye = leftEye.clone();
-    rightEye.position.set(0.19, 0.08, 0.5);
-    headGroup.add(rightEye);
-
-    // Subtle Eye Highlights
-    const pupilHighlightGeo = new THREE.SphereGeometry(0.03, 8, 8);
-    const pupilMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-    const hlLeft = new THREE.Mesh(pupilHighlightGeo, pupilMat);
-    hlLeft.position.set(-0.16, 0.11, 0.58);
-    headGroup.add(hlLeft);
-
-    const hlRight = hlLeft.clone();
-    hlRight.position.set(0.22, 0.11, 0.58);
-    headGroup.add(hlRight);
-
-    // Confident Smile (stylized curved arc)
-    const smileGeo = new THREE.TorusGeometry(0.14, 0.03, 12, 16, Math.PI * 0.7);
-    const smileMesh = new THREE.Mesh(smileGeo, new THREE.MeshBasicMaterial({ color: 0x4a2810 }));
-    smileMesh.rotation.z = Math.PI * 1.15;
-    smileMesh.position.set(0, -0.16, 0.51);
-    headGroup.add(smileMesh);
-
-    // 5. High-Tech 3D Autonomous Drone (Sentinx OS / Aerial Companion)
-    const droneGroup = new THREE.Group();
-    scene.add(droneGroup);
-
-    // Central Carbon Body
-    const droneBodyGeo = new THREE.BoxGeometry(0.35, 0.09, 0.35);
-    const droneBodyMesh = new THREE.Mesh(droneBodyGeo, droneChassisMaterial);
-    droneGroup.add(droneBodyMesh);
-
-    // Top Dome Sensor Cap
-    const domeGeo = new THREE.SphereGeometry(0.12, 16, 16, 0, Math.PI * 2, 0, Math.PI / 2);
-    const domeMesh = new THREE.Mesh(domeGeo, neonPurpleGlow);
-    domeMesh.position.set(0, 0.04, 0);
-    droneGroup.add(domeMesh);
-
-    // 4 Diagonal Motor Arms & Propellers
-    const armPositions = [
+    // 4 Drone Arms & Motor Hubs
+    const armCoords = [
       { x: 0.32, z: 0.32, angle: Math.PI / 4 },
       { x: -0.32, z: 0.32, angle: -Math.PI / 4 },
       { x: 0.32, z: -0.32, angle: -Math.PI / 4 },
@@ -260,62 +318,52 @@ export default function HeroVisual3D() {
 
     const propellers: THREE.Mesh[] = [];
 
-    armPositions.forEach((pos, i) => {
-      // Carbon Arm Strut
-      const armGeo = new THREE.CylinderGeometry(0.025, 0.025, 0.4, 8);
-      const armMesh = new THREE.Mesh(armGeo, droneChassisMaterial);
-      armMesh.rotation.z = Math.PI / 2;
-      armMesh.rotation.y = pos.angle;
-      armMesh.position.set(pos.x * 0.5, 0, pos.z * 0.5);
-      droneGroup.add(armMesh);
+    armCoords.forEach((coord, i) => {
+      // Carbon arm
+      const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.42, 8), droneDarkMaterial);
+      arm.rotation.z = Math.PI / 2;
+      arm.rotation.y = coord.angle;
+      arm.position.set(coord.x * 0.5, 0, coord.z * 0.5);
+      drone.add(arm);
 
-      // Motor Hub
-      const hubGeo = new THREE.CylinderGeometry(0.05, 0.05, 0.08, 16);
-      const hubMesh = new THREE.Mesh(hubGeo, droneChassisMaterial);
-      hubMesh.position.set(pos.x, 0.02, pos.z);
-      droneGroup.add(hubMesh);
+      // Motor hub
+      const motor = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.09, 16), droneDarkMaterial);
+      motor.position.set(coord.x, 0.02, coord.z);
+      drone.add(motor);
 
       // LED Light on motor
-      const ledGeo = new THREE.SphereGeometry(0.025, 8, 8);
-      const ledMat = i < 2 ? neonCyanGlow : neonPurpleGlow;
-      const ledMesh = new THREE.Mesh(ledGeo, ledMat);
-      ledMesh.position.set(pos.x, -0.03, pos.z);
-      droneGroup.add(ledMesh);
+      const led = new THREE.Mesh(new THREE.SphereGeometry(0.025, 8, 8), i < 2 ? neonCyan : neonPurple);
+      led.position.set(coord.x, -0.035, coord.z);
+      drone.add(led);
 
-      // Propeller (Spinning disc / blades)
-      const propGeo = new THREE.BoxGeometry(0.3, 0.008, 0.035);
-      const propMesh = new THREE.Mesh(propGeo, propellerMaterial);
-      propMesh.position.set(pos.x, 0.07, pos.z);
-      droneGroup.add(propMesh);
-      propellers.push(propMesh);
+      // Two-Blade Propeller
+      const prop = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.008, 0.04), droneDarkMaterial);
+      prop.position.set(coord.x, 0.075, coord.z);
+      drone.add(prop);
+      propellers.push(prop);
     });
 
-    // Camera Gimbal below drone
-    const gimbalGeo = new THREE.SphereGeometry(0.06, 16, 16);
-    const gimbalMesh = new THREE.Mesh(gimbalGeo, neonCyanGlow);
-    gimbalMesh.position.set(0, -0.07, 0.08);
-    droneGroup.add(gimbalMesh);
+    // Camera Gimbal with glowing cyan lens
+    const gimbal = new THREE.Mesh(new THREE.SphereGeometry(0.07, 16, 16), neonCyan);
+    gimbal.position.set(0, -0.07, 0.1);
+    drone.add(gimbal);
 
-    // 6. Orbital Holographic Grid Rings around the Scene
-    const orbitRingGeo = new THREE.TorusGeometry(2.2, 0.012, 16, 100);
-    const orbitRingMesh = new THREE.Mesh(
-      orbitRingGeo,
-      new THREE.MeshBasicMaterial({ color: 0xa855f7, transparent: true, opacity: 0.25 })
+    // 6. Orbital Cybernetic Rings
+    const orbitRing1 = new THREE.Mesh(
+      new THREE.TorusGeometry(2.1, 0.012, 16, 80),
+      new THREE.MeshBasicMaterial({ color: 0xc084fc, transparent: true, opacity: 0.25 })
     );
-    orbitRingMesh.rotation.x = Math.PI / 2.3;
-    scene.add(orbitRingMesh);
+    orbitRing1.rotation.x = Math.PI / 2.3;
+    scene.add(orbitRing1);
 
-    const orbitRingInnerGeo = new THREE.TorusGeometry(1.6, 0.008, 16, 80);
-    const orbitRingInnerMesh = new THREE.Mesh(
-      orbitRingInnerGeo,
-      new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.3 })
+    const orbitRing2 = new THREE.Mesh(
+      new THREE.TorusGeometry(1.6, 0.008, 16, 60),
+      new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.25 })
     );
-    orbitRingInnerMesh.rotation.x = Math.PI / 1.8;
-    scene.add(orbitRingInnerMesh);
+    orbitRing2.rotation.x = Math.PI / 1.7;
+    scene.add(orbitRing2);
 
-    // Mouse Tracking Logic
-    let mouseX = 0;
-    let mouseY = 0;
+    // Mouse Tracking
     let targetHeadRotY = 0;
     let targetHeadRotX = 0;
 
@@ -323,15 +371,12 @@ export default function HeroVisual3D() {
       const rect = container.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
-      mouseX = x;
-      mouseY = y;
       targetHeadRotY = x * 0.45;
       targetHeadRotX = -y * 0.25;
     };
 
     window.addEventListener("mousemove", handleMouseMove);
 
-    // Resize Handler
     const handleResize = () => {
       if (!container) return;
       width = container.clientWidth;
@@ -345,43 +390,43 @@ export default function HeroVisual3D() {
 
     // 7. Animation Loop
     let animationFrameId: number;
-    let clock = new THREE.Clock();
+    const clock = new THREE.Clock();
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
       const elapsed = clock.getElapsedTime();
 
-      // Smooth Head Mouse Tracking
+      // Smooth Head Tracking
       headGroup.rotation.y += (targetHeadRotY - headGroup.rotation.y) * 0.08;
       headGroup.rotation.x += (targetHeadRotX - headGroup.rotation.x) * 0.08;
 
-      // Subtle breathing motion for character
-      characterGroup.position.y = -0.6 + Math.sin(elapsed * 1.5) * 0.03;
+      // Gentle natural breathing
+      characterGroup.position.y = -0.65 + Math.sin(elapsed * 1.6) * 0.025;
 
-      // Drone Orbit Animation around the Developer Avatar!
-      const droneRadius = 1.65;
-      const droneSpeed = 0.9;
+      // Drone Orbit around the Avatar
+      const droneRadius = 1.75;
+      const droneSpeed = 0.95;
       const droneAngle = elapsed * droneSpeed;
 
-      const droneX = Math.cos(droneAngle) * droneRadius;
-      const droneZ = Math.sin(droneAngle) * (droneRadius * 0.8) + 0.3;
-      const droneY = 0.4 + Math.sin(elapsed * 2.5) * 0.18;
+      const dx = Math.cos(droneAngle) * droneRadius;
+      const dz = Math.sin(droneAngle) * (droneRadius * 0.75) + 0.3;
+      const dy = 0.3 + Math.sin(elapsed * 2.2) * 0.18;
 
-      droneGroup.position.set(droneX, droneY, droneZ);
+      drone.position.set(dx, dy, dz);
 
-      // Drone Banking / Pitch Tilting as it maneuvers
-      droneGroup.rotation.y = -droneAngle + Math.PI / 2;
-      droneGroup.rotation.z = Math.sin(elapsed * 2) * 0.12;
-      droneGroup.rotation.x = Math.cos(elapsed * 2) * 0.1;
+      // Drone Banking & Tilt
+      drone.rotation.y = -droneAngle + Math.PI / 2;
+      drone.rotation.z = Math.sin(elapsed * 2) * 0.12;
+      drone.rotation.x = Math.cos(elapsed * 2) * 0.08;
 
-      // Rapidly spin propellers
-      propellers.forEach((prop) => {
-        prop.rotation.y += 0.45;
+      // Spin propellers rapidly
+      propellers.forEach((p) => {
+        p.rotation.y += 0.55;
       });
 
-      // Slowly rotate orbital cyber rings
-      orbitRingMesh.rotation.z += 0.003;
-      orbitRingInnerMesh.rotation.z -= 0.004;
+      // Slowly rotate cyber rings
+      orbitRing1.rotation.z += 0.002;
+      orbitRing2.rotation.z -= 0.003;
 
       renderer.render(scene, camera);
     };
