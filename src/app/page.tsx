@@ -20,7 +20,7 @@ export default function HomePage() {
   const [isCommandOpen, setIsCommandOpen] = useState(false);
 
   return (
-    <div className="relative min-h-screen bg-[#07070a] text-slate-100 flex flex-col selection:bg-purple-600/30 selection:text-purple-200">
+    <div className="relative min-h-screen bg-[#060913] text-slate-100 flex flex-col selection:bg-cyan-500/30 selection:text-cyan-200">
       
       {/* Floating Header */}
       <Navbar

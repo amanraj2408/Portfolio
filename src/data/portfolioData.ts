@@ -235,7 +235,7 @@ export const FEATURED_PROJECTS: Project[] = [
       { label: "False Alarm Reduction", value: "92%" },
       { label: "Stream Protocol", value: "RTSP / MediaMTX" },
     ],
-    accentColor: "#a855f7", // Purple
+    accentColor: "#06b6d4", // Electric Cyan
     featured: true,
     githubUrl: "https://github.com/amanraj2408",
     architectureDetails: {

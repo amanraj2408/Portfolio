@@ -52,7 +52,7 @@ export default function CommandPalette({ isOpen, onClose, onOpenResume }: Comman
     {
       label: "View & Download Resume",
       category: "Documents",
-      icon: <FileText className="w-4 h-4 text-purple-400" />,
+      icon: <FileText className="w-4 h-4 text-cyan-400" />,
       perform: () => {
         onClose();
         onOpenResume();
@@ -61,7 +61,7 @@ export default function CommandPalette({ isOpen, onClose, onOpenResume }: Comman
     {
       label: "Jump to Featured Projects",
       category: "Navigation",
-      icon: <Layers className="w-4 h-4 text-indigo-400" />,
+      icon: <Layers className="w-4 h-4 text-teal-400" />,
       perform: () => {
         onClose();
         document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
@@ -88,7 +88,7 @@ export default function CommandPalette({ isOpen, onClose, onOpenResume }: Comman
     {
       label: "Copy Email Address (amanraj5687@gmail.com)",
       category: "Contact",
-      icon: <Mail className="w-4 h-4 text-pink-400" />,
+      icon: <Mail className="w-4 h-4 text-cyan-400" />,
       perform: () => {
         navigator.clipboard.writeText(PERSONAL_INFO.email);
         setCopiedEmail(true);
@@ -135,12 +135,12 @@ export default function CommandPalette({ isOpen, onClose, onOpenResume }: Comman
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-24 px-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-150">
       <div 
-        className="relative w-full max-w-lg bg-[#0e1022] border border-white/20 rounded-2xl overflow-hidden shadow-2xl shadow-purple-950/80"
+        className="relative w-full max-w-lg bg-[#070d1a] border border-cyan-500/20 rounded-2xl overflow-hidden shadow-2xl shadow-cyan-950/80"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Search Input Bar */}
         <div className="flex items-center px-4 py-3.5 border-b border-white/10 gap-3">
-          <Search className="w-4 h-4 text-purple-400 flex-shrink-0" />
+          <Search className="w-4 h-4 text-cyan-400 flex-shrink-0" />
           <input
             type="text"
             placeholder="Type a command or search..."
@@ -171,7 +171,7 @@ export default function CommandPalette({ isOpen, onClose, onOpenResume }: Comman
                     {action.icon}
                   </div>
                   <div>
-                    <div className="text-xs sm:text-sm font-medium text-white group-hover:text-purple-300 transition-colors">
+                    <div className="text-xs sm:text-sm font-medium text-white group-hover:text-cyan-300 transition-colors">
                       {action.label}
                     </div>
                     <div className="text-[10px] font-mono text-slate-500">
@@ -180,7 +180,7 @@ export default function CommandPalette({ isOpen, onClose, onOpenResume }: Comman
                   </div>
                 </div>
 
-                <ArrowRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-purple-400 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100" />
+                <ArrowRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-cyan-400 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100" />
               </button>
             ))
           ) : (

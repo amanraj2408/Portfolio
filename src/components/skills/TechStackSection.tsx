@@ -33,9 +33,9 @@ export default function TechStackSection() {
       case "Cloud & DevOps":
         return <Cloud className="w-4 h-4 text-blue-400" />;
       case "AI & Vision":
-        return <Cpu className="w-4 h-4 text-purple-400" />;
+        return <Cpu className="w-4 h-4 text-teal-400" />;
       case "Real-Time & Protocols":
-        return <Radio className="w-4 h-4 text-pink-400" />;
+        return <Radio className="w-4 h-4 text-cyan-400" />;
       default:
         return <Code2 className="w-4 h-4 text-slate-400" />;
     }
@@ -63,20 +63,20 @@ export default function TechStackSection() {
   }).filter(Boolean);
 
   return (
-    <section id="skills" className="py-24 relative overflow-hidden bg-[#050508]/60">
+    <section id="skills" className="py-24 relative overflow-hidden bg-transparent">
       {/* Decorative gradient blur */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-purple-900/10 blur-[140px] pointer-events-none -z-10" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-cyan-900/10 blur-[140px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16">
         
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-purple-300 mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-cyan-500/20 text-xs font-mono text-cyan-300 mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
             <span>02 // ARCHITECTURE & TOOLING</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
-            Technology <span className="text-gradient-purple">Stack</span>
+            Technology <span className="text-gradient-cyan">Stack</span>
           </h2>
           <p className="mt-4 text-slate-400 max-w-2xl text-sm sm:text-base">
             Curated toolkit powering high-throughput web frontends, distributed microservices, edge artificial intelligence, and sub-50ms real-time telemetry.
@@ -87,14 +87,14 @@ export default function TechStackSection() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-10 pb-6 border-b border-white/10">
           
           {/* Category Tabs */}
-          <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-2xl bg-[#0e0f1e]/80 border border-white/10 backdrop-blur-md">
+          <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-2xl bg-[#070d1a]/80 border border-white/10 backdrop-blur-md">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-3.5 py-1.5 rounded-xl text-xs font-medium tracking-wide transition-all cursor-pointer flex items-center gap-1.5 ${
                   selectedCategory === cat
-                    ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-500/25"
+                    ? "bg-gradient-to-r from-cyan-400 to-teal-400 text-slate-950 font-bold shadow-md shadow-cyan-500/25"
                     : "text-slate-400 hover:text-white hover:bg-white/5"
                 }`}
               >
@@ -112,7 +112,7 @@ export default function TechStackSection() {
               placeholder="Search technologies..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500/60 focus:ring-1 focus:ring-purple-500/60 font-mono transition-all"
+              className="w-full pl-9 pr-4 py-2 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/60 focus:ring-1 focus:ring-cyan-500/60 font-mono transition-all"
             />
           </div>
 
@@ -133,7 +133,7 @@ export default function TechStackSection() {
                   <div>
                     <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
                       <span>{group.category}</span>
-                      <span className="text-xs font-mono font-normal text-purple-400 px-2 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/20">
+                      <span className="text-xs font-mono font-normal text-cyan-400 px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20">
                         {group.skills.length} tools
                       </span>
                     </h3>
@@ -146,20 +146,20 @@ export default function TechStackSection() {
                   {group.skills.map((skill) => (
                     <div
                       key={skill.name}
-                      className="glass-panel p-4 rounded-2xl border border-white/10 hover:border-purple-500/40 transition-all duration-300 group hover:-translate-y-1 relative flex flex-col justify-between"
+                      className="glass-panel p-4 rounded-2xl border border-white/10 hover:border-cyan-500/40 transition-all duration-300 group hover:-translate-y-1 relative flex flex-col justify-between"
                     >
                       <div>
                         {/* Header: Skill Name & Level */}
                         <div className="flex items-center justify-between mb-2">
-                          <span className="font-bold text-white text-sm group-hover:text-purple-300 transition-colors">
+                          <span className="font-bold text-white text-sm group-hover:text-cyan-300 transition-colors">
                             {skill.name}
                           </span>
                           <span
                             className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${
                               skill.level === "Core"
-                                ? "bg-purple-500/15 text-purple-300 border-purple-500/30"
+                                ? "bg-cyan-500/15 text-cyan-300 border-cyan-500/30"
                                 : skill.level === "Advanced"
-                                ? "bg-indigo-500/15 text-indigo-300 border-indigo-500/30"
+                                ? "bg-teal-500/15 text-teal-300 border-teal-500/30"
                                 : "bg-slate-500/15 text-slate-300 border-slate-500/30"
                             }`}
                           >

@@ -38,9 +38,9 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Top Control Bar */}
-        <div className="flex items-center justify-between px-6 py-4 bg-[#101124] border-b border-white/10 no-print">
+        <div className="flex items-center justify-between px-6 py-4 bg-[#080e1c] border-b border-white/10 no-print">
           <div className="flex items-center gap-2">
-            <FileText className="w-4 h-4 text-purple-400" />
+            <FileText className="w-4 h-4 text-cyan-400" />
             <span className="text-xs font-mono font-bold text-white tracking-wider">
               AMAN_RAJ_RESUME.PDF
             </span>
@@ -49,7 +49,7 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
           <div className="flex items-center gap-3">
             <button
               onClick={handlePrint}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-medium shadow-md transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 text-xs font-bold shadow-md transition-colors cursor-pointer"
             >
               <Printer className="w-3.5 h-3.5" />
               <span>Print / Download PDF</span>
@@ -66,7 +66,7 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
         </div>
 
         {/* Printable Resume Document Paper */}
-        <div className="flex-1 overflow-y-auto p-6 sm:p-10 bg-[#0e0f20] text-slate-200 font-sans text-xs sm:text-sm selection:bg-purple-500/30">
+        <div className="flex-1 overflow-y-auto p-6 sm:p-10 bg-[#060a14] text-slate-200 font-sans text-xs sm:text-sm selection:bg-cyan-500/30">
           
           <div ref={printRef} className="max-w-3xl mx-auto space-y-6">
             
@@ -75,7 +75,7 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
               <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
                 {PERSONAL_INFO.name}
               </h1>
-              <div className="text-sm font-semibold text-purple-400 font-mono mt-1">
+              <div className="text-sm font-semibold text-cyan-400 font-mono mt-1">
                 {PERSONAL_INFO.title}
               </div>
 
@@ -85,19 +85,19 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
                   <MapPin className="w-3.5 h-3.5 text-slate-500" /> {PERSONAL_INFO.location}
                 </span>
                 <span>•</span>
-                <a href={`mailto:${PERSONAL_INFO.email}`} className="text-purple-300 hover:underline">
+                <a href={`mailto:${PERSONAL_INFO.email}`} className="text-cyan-300 hover:underline">
                   {PERSONAL_INFO.email}
                 </a>
                 <span>•</span>
-                <a href={`tel:${PERSONAL_INFO.phone}`} className="text-purple-300 hover:underline">
+                <a href={`tel:${PERSONAL_INFO.phone}`} className="text-cyan-300 hover:underline">
                   {PERSONAL_INFO.phoneDisplay}
                 </a>
                 <span>•</span>
-                <a href={PERSONAL_INFO.linkedIn} target="_blank" rel="noreferrer" className="text-purple-300 hover:underline">
+                <a href={PERSONAL_INFO.linkedIn} target="_blank" rel="noreferrer" className="text-cyan-300 hover:underline">
                   linkedin.com/in/amanraj24
                 </a>
                 <span>•</span>
-                <a href={PERSONAL_INFO.github} target="_blank" rel="noreferrer" className="text-purple-300 hover:underline">
+                <a href={PERSONAL_INFO.github} target="_blank" rel="noreferrer" className="text-cyan-300 hover:underline">
                   github.com/amanraj2408
                 </a>
               </div>

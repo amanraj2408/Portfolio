@@ -27,7 +27,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
       
       {/* Modal Dialog */}
       <div 
-        className="relative w-full max-w-3xl max-h-[90vh] bg-[#0c0d1c] border border-white/15 rounded-3xl overflow-y-auto shadow-2xl shadow-purple-950/60 p-6 sm:p-8"
+        className="relative w-full max-w-3xl max-h-[90vh] bg-[#070d1a] border border-white/15 rounded-3xl overflow-y-auto shadow-2xl shadow-cyan-950/60 p-6 sm:p-8"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
@@ -41,7 +41,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
         {/* Header */}
         <div className="mb-6">
-          <div className="flex items-center gap-2 text-xs font-mono text-purple-400 mb-1">
+          <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 mb-1">
             <span>PROJECT {project.number}</span>
             <span>•</span>
             <span className="text-slate-400">{project.category}</span>
@@ -60,16 +60,16 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         </div>
 
         {/* Architectural Flowchart Box */}
-        <div className="my-6 p-5 rounded-2xl bg-[#070710] border border-white/10">
-          <h4 className="text-xs font-mono uppercase tracking-wider text-purple-300 mb-4 flex items-center gap-2">
-            <Layers className="w-4 h-4 text-purple-400" />
+        <div className="my-6 p-5 rounded-2xl bg-[#060a14] border border-white/10">
+          <h4 className="text-xs font-mono uppercase tracking-wider text-cyan-300 mb-4 flex items-center gap-2">
+            <Layers className="w-4 h-4 text-cyan-400" />
             <span>Distributed System Architecture</span>
           </h4>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
             {/* Step 1 */}
             <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/5 space-y-1.5">
-              <span className="text-[10px] text-indigo-400 font-bold">01 // INGESTION</span>
+              <span className="text-[10px] text-cyan-400 font-bold">01 // INGESTION</span>
               <p className="text-slate-300 text-xs font-sans leading-relaxed">
                 {project.architectureDetails.dataIngestion}
               </p>
@@ -77,7 +77,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
             {/* Step 2 */}
             <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/5 space-y-1.5">
-              <span className="text-[10px] text-purple-400 font-bold">02 // PROCESSING</span>
+              <span className="text-[10px] text-teal-400 font-bold">02 // PROCESSING</span>
               <p className="text-slate-300 text-xs font-sans leading-relaxed">
                 {project.architectureDetails.processing}
               </p>
@@ -117,7 +117,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             {project.technologies.map((tech) => (
               <span
                 key={tech}
-                className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-xs font-mono text-purple-300"
+                className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-xs font-mono text-cyan-300"
               >
                 {tech}
               </span>
@@ -144,7 +144,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
           <button
             onClick={onClose}
-            className="px-5 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-medium text-xs shadow-md cursor-pointer hover:opacity-95"
+            className="px-5 py-2 rounded-xl bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 text-slate-950 font-bold text-xs shadow-md cursor-pointer hover:opacity-95"
           >
             Back to Showcase
           </button>

@@ -40,7 +40,7 @@ export default function ContactSection({ onOpenResume }: ContactSectionProps) {
       particleCount: 40,
       spread: 50,
       origin: { y: 0.8 },
-      colors: ["#a855f7", "#6366f1", "#10b981"],
+      colors: ["#38bdf8", "#06b6d4", "#10b981"],
     });
     setTimeout(() => setCopiedEmail(false), 2500);
   };
@@ -62,26 +62,26 @@ export default function ContactSection({ onOpenResume }: ContactSectionProps) {
         particleCount: 70,
         spread: 70,
         origin: { y: 0.6 },
-        colors: ["#c084fc", "#818cf8", "#38bdf8"],
+        colors: ["#38bdf8", "#2dd4bf", "#10b981"],
       });
     }, 1000);
   };
 
   return (
-    <section id="contact" className="py-24 relative overflow-hidden bg-[#050509]">
+    <section id="contact" className="py-24 relative overflow-hidden bg-transparent">
       {/* Background ambient light */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-purple-900/15 rounded-full blur-[160px] pointer-events-none -z-10" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-cyan-900/15 rounded-full blur-[160px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16">
         
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-purple-300 mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-cyan-500/20 text-xs font-mono text-cyan-300 mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
             <span>07 // GET IN TOUCH</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
-            Let's Build Something <span className="text-gradient-purple">Great Together</span>
+            Let's Build Something <span className="text-gradient-cyan">Great Together</span>
           </h2>
           <p className="mt-4 text-slate-400 max-w-2xl text-sm sm:text-base">
             Whether you're looking for a high-impact Full-Stack Engineer, want to discuss real-time drone telemetry, or explore computer vision integrations — let's connect.
@@ -104,16 +104,16 @@ export default function ContactSection({ onOpenResume }: ContactSectionProps) {
               </div>
 
               {/* Contact Item: Email */}
-              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-purple-500/30 transition-all">
+              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-cyan-500/30 transition-all">
                 <div className="flex items-center gap-3">
-                  <div className="p-2.5 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400">
+                  <div className="p-2.5 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400">
                     <Mail className="w-4 h-4" />
                   </div>
                   <div>
                     <div className="text-[10px] font-mono text-slate-400 uppercase">EMAIL</div>
                     <a
                       href={`mailto:${PERSONAL_INFO.email}`}
-                      className="text-xs sm:text-sm font-semibold text-white hover:text-purple-300 transition-colors"
+                      className="text-xs sm:text-sm font-semibold text-white hover:text-cyan-300 transition-colors"
                     >
                       {PERSONAL_INFO.email}
                     </a>
@@ -130,16 +130,16 @@ export default function ContactSection({ onOpenResume }: ContactSectionProps) {
               </div>
 
               {/* Contact Item: Phone */}
-              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-purple-500/30 transition-all">
+              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-cyan-500/30 transition-all">
                 <div className="flex items-center gap-3">
-                  <div className="p-2.5 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
+                  <div className="p-2.5 rounded-xl bg-teal-500/10 border border-teal-500/20 text-teal-400">
                     <Phone className="w-4 h-4" />
                   </div>
                   <div>
                     <div className="text-[10px] font-mono text-slate-400 uppercase">PHONE</div>
                     <a
                       href={`tel:${PERSONAL_INFO.phone}`}
-                      className="text-xs sm:text-sm font-semibold text-white hover:text-purple-300 transition-colors"
+                      className="text-xs sm:text-sm font-semibold text-white hover:text-cyan-300 transition-colors"
                     >
                       {PERSONAL_INFO.phoneDisplay}
                     </a>
@@ -157,7 +157,7 @@ export default function ContactSection({ onOpenResume }: ContactSectionProps) {
 
               {/* Contact Item: Location */}
               <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/[0.03] border border-white/5">
-                <div className="p-2.5 rounded-xl bg-pink-500/10 border border-pink-500/20 text-pink-400">
+                <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
                   <MapPin className="w-4 h-4" />
                 </div>
                 <div>
@@ -176,7 +176,7 @@ export default function ContactSection({ onOpenResume }: ContactSectionProps) {
                   rel="noopener noreferrer"
                   className="flex-1 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono text-white flex items-center justify-center gap-2 transition-colors"
                 >
-                  <LinkedinIcon className="w-4 h-4 text-blue-400" />
+                  <LinkedinIcon className="w-4 h-4 text-cyan-400" />
                   <span>LinkedIn</span>
                 </a>
 
@@ -194,7 +194,7 @@ export default function ContactSection({ onOpenResume }: ContactSectionProps) {
               {/* Resume CTA */}
               <button
                 onClick={onOpenResume}
-                className="w-full py-3 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-600 hover:opacity-95 text-white font-medium text-xs flex items-center justify-center gap-2 shadow-lg shadow-purple-900/30 transition-all cursor-pointer"
+                className="w-full py-3 rounded-2xl bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 hover:opacity-95 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-cyan-950/40 transition-all cursor-pointer"
               >
                 <FileText className="w-4 h-4" />
                 <span>View & Download Resume</span>
@@ -221,11 +221,11 @@ export default function ContactSection({ onOpenResume }: ContactSectionProps) {
             <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 shadow-2xl relative">
               
               <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
-                <MessageSquare className="w-5 h-5 text-purple-400" />
+                <MessageSquare className="w-5 h-5 text-cyan-400" />
                 <span>Send a Direct Message</span>
               </h3>
               <p className="text-xs text-slate-400 mb-6">
-                Fill out the form below or email directly at <strong className="text-purple-300">{PERSONAL_INFO.email}</strong>.
+                Fill out the form below or email directly at <strong className="text-cyan-300">{PERSONAL_INFO.email}</strong>.
               </p>
 
               {submitted ? (
@@ -242,7 +242,7 @@ export default function ContactSection({ onOpenResume }: ContactSectionProps) {
                       setSubmitted(false);
                       setFormData({ name: "", email: "", subject: "", message: "" });
                     }}
-                    className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono text-purple-300 transition-colors cursor-pointer"
+                    className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono text-cyan-300 transition-colors cursor-pointer"
                   >
                     Send Another Message
                   </button>
@@ -260,7 +260,7 @@ export default function ContactSection({ onOpenResume }: ContactSectionProps) {
                         placeholder="e.g. Alex Morgan"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 font-sans transition-colors"
+                        className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 font-sans transition-colors"
                       />
                     </div>
 
@@ -274,7 +274,7 @@ export default function ContactSection({ onOpenResume }: ContactSectionProps) {
                         placeholder="e.g. alex@company.com"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 font-sans transition-colors"
+                        className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 font-sans transition-colors"
                       />
                     </div>
                   </div>
@@ -289,7 +289,7 @@ export default function ContactSection({ onOpenResume }: ContactSectionProps) {
                       placeholder="e.g. Full-Stack Engineer Role / Project Inquiry"
                       value={formData.subject}
                       onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 font-sans transition-colors"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 font-sans transition-colors"
                     />
                   </div>
 
@@ -303,7 +303,7 @@ export default function ContactSection({ onOpenResume }: ContactSectionProps) {
                       placeholder="Tell me about your project, team, or opportunity..."
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 font-sans transition-colors resize-none"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 font-sans transition-colors resize-none"
                     />
                   </div>
 
@@ -315,7 +315,7 @@ export default function ContactSection({ onOpenResume }: ContactSectionProps) {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-xs text-white bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-600 hover:opacity-95 shadow-lg shadow-purple-900/30 transition-all cursor-pointer disabled:opacity-50"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-xs text-slate-950 bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 hover:opacity-95 shadow-lg shadow-cyan-950/40 transition-all cursor-pointer disabled:opacity-50"
                     >
                       {isSubmitting ? (
                         <span>Sending Transmission...</span>

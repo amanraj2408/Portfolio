@@ -41,7 +41,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative bg-[#040407] border-t border-white/10 text-slate-400 font-sans text-xs">
+    <footer className="relative bg-[#040711] border-t border-white/10 text-slate-400 font-sans text-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center justify-between pb-10 border-b border-white/5">
@@ -49,8 +49,8 @@ export default function Footer() {
           {/* Brand Info */}
           <div className="md:col-span-6 space-y-2">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500 p-[1px]">
-                <div className="w-full h-full bg-[#07070a] rounded-[7px] flex items-center justify-center font-bold text-white text-xs">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 via-teal-500 to-emerald-400 p-[1px]">
+                <div className="w-full h-full bg-[#060913] rounded-[7px] flex items-center justify-center font-bold text-white text-xs">
                   AR
                 </div>
               </div>
@@ -61,7 +61,7 @@ export default function Footer() {
             <p className="text-slate-400 text-xs max-w-sm">
               Full-Stack Software Engineer • Modern Web • Real-Time Telemetry • AI & Vision Integration.
             </p>
-            <div className="flex items-center gap-2 text-[11px] font-mono text-purple-300">
+            <div className="flex items-center gap-2 text-[11px] font-mono text-cyan-300">
               <Clock className="w-3.5 h-3.5" />
               <span>Bengaluru, India (IST):</span>
               <span className="text-white font-semibold">{time || "Loading..."}</span>

@@ -37,19 +37,19 @@ export default function ProjectsSection() {
   return (
     <section id="projects" className="py-24 relative overflow-hidden">
       {/* Background ambient lighting */}
-      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-indigo-600/10 rounded-full blur-[140px] pointer-events-none -z-10" />
-      <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-purple-600/10 rounded-full blur-[140px] pointer-events-none -z-10" />
+      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-cyan-600/10 rounded-full blur-[140px] pointer-events-none -z-10" />
+      <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-teal-600/10 rounded-full blur-[140px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16">
         
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-purple-300 mb-3 shadow-inner">
-            <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/5 border border-cyan-500/20 text-xs font-mono text-cyan-300 mb-3 shadow-inner">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
             <span>02 // FEATURED SYSTEMS</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
-            Mission-Critical <span className="text-gradient-purple">Architectures</span>
+            Mission-Critical <span className="text-gradient-cyan">Architectures</span>
           </h2>
           <p className="mt-4 text-slate-400 max-w-2xl text-sm sm:text-base">
             Deep dive into production-grade systems spanning autonomous drone telemetry, computer vision intrusion detection, and high-concurrency quick-commerce.
@@ -64,7 +64,7 @@ export default function ProjectsSection() {
             return (
               <div
                 key={project.id}
-                className="glass-panel rounded-3xl border border-white/10 hover:border-purple-500/30 transition-all duration-500 overflow-hidden shadow-2xl p-6 sm:p-8 lg:p-10 relative group"
+                className="glass-panel rounded-3xl border border-white/10 hover:border-cyan-500/30 transition-all duration-500 overflow-hidden shadow-2xl p-6 sm:p-8 lg:p-10 relative group"
               >
                 {/* Background subtle radial glow according to project accent */}
                 <div 
@@ -79,7 +79,7 @@ export default function ProjectsSection() {
                     <div>
                       {/* Project Counter & Category */}
                       <div className="flex items-center gap-3 mb-3">
-                        <span className="font-mono text-xs font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-400">
+                        <span className="font-mono text-xs font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-400">
                           PROJECT {project.number}
                         </span>
                         <span className="text-slate-600">•</span>
@@ -89,10 +89,10 @@ export default function ProjectsSection() {
                       </div>
 
                       {/* Title & Tagline */}
-                      <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white group-hover:text-purple-200 transition-colors">
+                      <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white group-hover:text-cyan-200 transition-colors">
                         {project.title}
                       </h3>
-                      <p className="text-sm sm:text-base font-medium text-purple-300/90 mt-1 mb-4">
+                      <p className="text-sm sm:text-base font-medium text-cyan-300/90 mt-1 mb-4">
                         {project.tagline}
                       </p>
 
@@ -128,7 +128,7 @@ export default function ProjectsSection() {
                     <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-white/10">
                       <button
                         onClick={() => setSelectedProject(project)}
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-xs text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 shadow-lg shadow-purple-900/30 transition-all cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs text-slate-950 bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 hover:from-cyan-300 hover:via-teal-200 hover:to-emerald-300 shadow-lg shadow-cyan-950/40 transition-all cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0"
                       >
                         <Layers className="w-3.5 h-3.5" />
                         <span>Architecture & Details</span>

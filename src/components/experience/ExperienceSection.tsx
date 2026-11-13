@@ -25,12 +25,12 @@ export default function ExperienceSection() {
         
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-purple-300 mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/5 border border-cyan-500/20 text-xs font-mono text-cyan-300 mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
             <span>04 // CAREER TRAJECTORY</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
-            Professional <span className="text-gradient-purple">Experience</span>
+            Professional <span className="text-gradient-cyan">Experience</span>
           </h2>
           <p className="mt-4 text-slate-400 max-w-2xl text-sm sm:text-base">
             Track record of designing, building, and deploying real-time systems, modern web frontends, and cloud microservices.
@@ -38,7 +38,7 @@ export default function ExperienceSection() {
         </div>
 
         {/* Timeline Container */}
-        <div className="relative border-l border-purple-500/20 ml-4 sm:ml-8 md:ml-32 space-y-12 pb-4">
+        <div className="relative border-l border-cyan-500/20 ml-4 sm:ml-8 md:ml-32 space-y-12 pb-4">
           
           {EXPERIENCES.map((exp, idx) => {
             const isCurrent = exp.period.includes("Present");
@@ -50,18 +50,18 @@ export default function ExperienceSection() {
                 <div 
                   className={`absolute -left-[17px] top-1.5 w-8 h-8 rounded-full border flex items-center justify-center transition-all ${
                     isCurrent
-                      ? "bg-purple-600 border-purple-400 text-white shadow-lg shadow-purple-500/50"
-                      : "bg-[#0b0c19] border-white/20 text-slate-400 group-hover:border-purple-400 group-hover:text-purple-300"
+                      ? "bg-cyan-400 border-cyan-200 text-slate-950 font-bold shadow-lg shadow-cyan-500/50"
+                      : "bg-[#070d1a] border-white/20 text-slate-400 group-hover:border-cyan-400 group-hover:text-cyan-300"
                   }`}
                 >
                   <Briefcase className="w-3.5 h-3.5" />
                   {isCurrent && (
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-40" />
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-40" />
                   )}
                 </div>
 
                 {/* Experience Card */}
-                <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 hover:border-purple-500/30 transition-all duration-300 shadow-xl">
+                <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300 shadow-xl">
                   
                   {/* Top Bar: Company, Role & Period */}
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-white/10">
@@ -76,14 +76,14 @@ export default function ExperienceSection() {
                           </span>
                         )}
                       </div>
-                      <div className="text-sm font-semibold text-purple-400 mt-0.5">
+                      <div className="text-sm font-semibold text-cyan-400 mt-0.5">
                         {exp.role}
                       </div>
                     </div>
 
                     <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-slate-400">
                       <div className="flex items-center gap-1.5">
-                        <Calendar className="w-3.5 h-3.5 text-purple-400" />
+                        <Calendar className="w-3.5 h-3.5 text-cyan-400" />
                         <span>{exp.period}</span>
                       </div>
                       <div className="flex items-center gap-1.5">
@@ -94,8 +94,8 @@ export default function ExperienceSection() {
                   </div>
 
                   {/* Impact Highlight Pill */}
-                  <div className="my-4 p-3 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center gap-2 text-xs text-purple-200">
-                    <Zap className="w-4 h-4 text-purple-400 flex-shrink-0" />
+                  <div className="my-4 p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center gap-2 text-xs text-cyan-200">
+                    <Zap className="w-4 h-4 text-cyan-400 flex-shrink-0" />
                     <span><strong>Key Impact:</strong> {exp.highlight}</span>
                   </div>
 
@@ -103,7 +103,7 @@ export default function ExperienceSection() {
                   <div className="space-y-2.5 my-4">
                     {exp.description.map((bullet, bIdx) => (
                       <div key={bIdx} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 leading-relaxed">
-                        <CheckCircle className="w-4 h-4 text-purple-400/80 flex-shrink-0 mt-0.5" />
+                        <CheckCircle className="w-4 h-4 text-cyan-400/80 flex-shrink-0 mt-0.5" />
                         <span>{bullet}</span>
                       </div>
                     ))}

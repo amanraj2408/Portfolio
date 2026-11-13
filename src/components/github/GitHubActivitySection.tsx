@@ -29,20 +29,20 @@ export default function GitHubActivitySection() {
   ];
 
   return (
-    <section id="github" className="py-24 relative overflow-hidden bg-[#060710]">
+    <section id="github" className="py-24 relative overflow-hidden bg-transparent">
       {/* Background glow */}
-      <div className="absolute top-1/3 right-10 w-96 h-96 bg-indigo-600/10 rounded-full blur-[140px] pointer-events-none -z-10" />
+      <div className="absolute top-1/3 right-10 w-96 h-96 bg-cyan-600/10 rounded-full blur-[140px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16">
         
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-purple-300 mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-cyan-500/20 text-xs font-mono text-cyan-300 mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
             <span>06 // OPEN-SOURCE & ECOSYSTEM</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
-            GitHub <span className="text-gradient-purple">Activity</span>
+            GitHub <span className="text-gradient-cyan">Activity</span>
           </h2>
           <p className="mt-4 text-slate-400 max-w-2xl text-sm sm:text-base">
             Continuous engineering discipline, open-source repositories, and verified code contributions.
@@ -55,7 +55,7 @@ export default function GitHubActivitySection() {
             
             {/* User Profile Info */}
             <div className="flex items-center gap-4">
-              <div className="relative w-16 h-16 rounded-2xl overflow-hidden border-2 border-purple-500/50 shadow-lg shadow-purple-500/20">
+              <div className="relative w-16 h-16 rounded-2xl overflow-hidden border-2 border-cyan-500/50 shadow-lg shadow-cyan-500/20">
                 <img
                   src="https://avatars.githubusercontent.com/u/106879974?v=4"
                   alt="Aman Raj GitHub Avatar"
@@ -66,7 +66,7 @@ export default function GitHubActivitySection() {
               <div>
                 <div className="flex items-center gap-2">
                   <h3 className="text-xl font-bold text-white">Aman Raj</h3>
-                  <span className="font-mono text-xs text-purple-400">@amanraj2408</span>
+                  <span className="font-mono text-xs text-cyan-400">@amanraj2408</span>
                 </div>
                 <p className="text-xs text-slate-300 mt-1 max-w-lg">
                   Full-Stack Developer | MERN & Java/Spring Boot | Cloud & DevOps Enthusiast • 10+ production-ready web apps.
@@ -91,7 +91,7 @@ export default function GitHubActivitySection() {
                 href={PERSONAL_INFO.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-xs text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-md shadow-purple-900/30 transition-all cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs text-slate-950 bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 hover:from-cyan-300 hover:via-teal-200 hover:to-emerald-300 shadow-md shadow-cyan-950/40 transition-all cursor-pointer"
               >
                 <GithubIcon className="w-4 h-4" />
                 <span>Visit GitHub Profile</span>
@@ -105,15 +105,15 @@ export default function GitHubActivitySection() {
           <div className="mt-6">
             <div className="flex items-center justify-between text-xs font-mono text-slate-400 mb-3">
               <div className="flex items-center gap-2">
-                <GitCommit className="w-4 h-4 text-purple-400" />
+                <GitCommit className="w-4 h-4 text-cyan-400" />
                 <span>Contribution Frequency (Past Year)</span>
               </div>
               <div className="flex items-center gap-1.5 text-[11px]">
                 <span>Less</span>
                 <span className="w-2.5 h-2.5 rounded-sm bg-white/5" />
-                <span className="w-2.5 h-2.5 rounded-sm bg-purple-900/50" />
-                <span className="w-2.5 h-2.5 rounded-sm bg-purple-600/70" />
-                <span className="w-2.5 h-2.5 rounded-sm bg-purple-400" />
+                <span className="w-2.5 h-2.5 rounded-sm bg-cyan-950/60" />
+                <span className="w-2.5 h-2.5 rounded-sm bg-cyan-600/60" />
+                <span className="w-2.5 h-2.5 rounded-sm bg-cyan-400" />
                 <span>More</span>
               </div>
             </div>
@@ -133,9 +133,9 @@ export default function GitHubActivitySection() {
                   {Array.from({ length: 364 }).map((_, i) => {
                     const intensity = (i * 7 + (i % 5) * 13) % 10;
                     let bg = "bg-white/[0.04]";
-                    if (intensity > 3 && intensity <= 6) bg = "bg-purple-950/60";
-                    else if (intensity > 6 && intensity <= 8) bg = "bg-purple-600/60";
-                    else if (intensity > 8) bg = "bg-purple-400 shadow-sm shadow-purple-400/50";
+                    if (intensity > 3 && intensity <= 6) bg = "bg-cyan-950/60";
+                    else if (intensity > 6 && intensity <= 8) bg = "bg-cyan-600/60";
+                    else if (intensity > 8) bg = "bg-cyan-400 shadow-sm shadow-cyan-400/50";
 
                     return (
                       <div
@@ -185,7 +185,7 @@ export default function GitHubActivitySection() {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-bold text-white flex items-center gap-2">
-              <BookOpen className="w-4 h-4 text-purple-400" />
+              <BookOpen className="w-4 h-4 text-cyan-400" />
               <span>Public Repositories</span>
             </h3>
             <span className="text-xs font-mono text-slate-400">
@@ -200,12 +200,12 @@ export default function GitHubActivitySection() {
                 href={repo.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="glass-panel p-5 rounded-2xl border border-white/10 hover:border-purple-500/40 transition-all duration-300 group hover:-translate-y-1 flex flex-col justify-between"
+                className="glass-panel p-5 rounded-2xl border border-white/10 hover:border-cyan-500/40 transition-all duration-300 group hover:-translate-y-1 flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="font-mono text-sm font-bold text-white group-hover:text-purple-300 transition-colors flex items-center gap-1.5">
-                      <Code2 className="w-4 h-4 text-purple-400" />
+                    <span className="font-mono text-sm font-bold text-white group-hover:text-cyan-300 transition-colors flex items-center gap-1.5">
+                      <Code2 className="w-4 h-4 text-cyan-400" />
                       {repo.name}
                     </span>
                     <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover:text-white transition-colors" />
@@ -217,7 +217,7 @@ export default function GitHubActivitySection() {
 
                 <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs font-mono text-slate-400">
                   <div className="flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-purple-400" />
+                    <span className="w-2 h-2 rounded-full bg-cyan-400" />
                     <span>{repo.language}</span>
                   </div>
                   <div className="flex items-center gap-1 text-slate-400">

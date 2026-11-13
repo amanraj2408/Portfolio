@@ -20,20 +20,20 @@ export default function AboutSection() {
     {
       title: "Real-Time Telemetry",
       subtitle: "MQTT • WebSockets • EMQX",
-      icon: <Radio className="w-5 h-5 text-indigo-400" />,
+      icon: <Radio className="w-5 h-5 text-cyan-400" />,
       desc: "Sub-50ms bidirectional telemetry streaming for drone operations and IoT fleets via EMQX distributed brokers.",
       tags: ["MQTT", "EMQX", "WebSockets", "DJI Pilot 2"],
-      accent: "from-indigo-500/20 to-indigo-500/5",
-      border: "hover:border-indigo-500/40",
+      accent: "from-cyan-500/20 to-cyan-500/5",
+      border: "hover:border-cyan-500/40",
     },
     {
       title: "AI & Computer Vision",
       subtitle: "YOLOv8 • PyTorch • OpenCV",
-      icon: <Cpu className="w-5 h-5 text-purple-400" />,
+      icon: <Cpu className="w-5 h-5 text-teal-400" />,
       desc: "Edge-ready video stream inference with YOLOv8, RTSP ingestion via MediaMTX, and spatial duplicate alert suppression.",
       tags: ["YOLOv8", "PyTorch", "RTSP", "OpenCV"],
-      accent: "from-purple-500/20 to-purple-500/5",
-      border: "hover:border-purple-500/40",
+      accent: "from-teal-500/20 to-teal-500/5",
+      border: "hover:border-teal-500/40",
     },
     {
       title: "Modern Full-Stack",
@@ -58,18 +58,18 @@ export default function AboutSection() {
   return (
     <section id="about" className="py-24 relative overflow-hidden">
       {/* Background ambient radial lighting */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[400px] bg-purple-900/15 rounded-full blur-[160px] pointer-events-none -z-10" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[400px] bg-cyan-900/15 rounded-full blur-[160px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16">
         
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-purple-300 mb-3 shadow-inner">
-            <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/5 border border-cyan-500/20 text-xs font-mono text-cyan-300 mb-3 shadow-inner">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
             <span>01 // ABOUT ME</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
-            Engineering High-Performance <span className="text-gradient-purple">Digital Products</span>
+            Engineering High-Performance <span className="text-gradient-cyan">Digital Products</span>
           </h2>
           <p className="mt-4 text-slate-400 max-w-2xl text-sm sm:text-base">
             Full-Stack Software Engineer with 2+ years of experience building reliable web applications, distributed backend services, and real-time intelligent platforms.
@@ -82,7 +82,7 @@ export default function AboutSection() {
             
             <div className="lg:col-span-8 space-y-4">
               <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
-                Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-indigo-300 to-cyan-300">Aman Raj</span>
+                Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400">Aman Raj</span>
               </h3>
               
               <p className="text-slate-200 text-sm sm:text-base leading-relaxed">
@@ -99,9 +99,9 @@ export default function AboutSection() {
             </div>
 
             {/* Quick Metrics & Location Column */}
-            <div className="lg:col-span-4 flex flex-col gap-3 p-6 rounded-2xl bg-[#090a18]/80 border border-white/10">
+            <div className="lg:col-span-4 flex flex-col gap-3 p-6 rounded-2xl bg-[#070d1a]/80 border border-white/10">
               <div className="flex items-center gap-3 text-xs font-mono text-slate-300 pb-3 border-b border-white/5">
-                <MapPin className="w-4 h-4 text-purple-400 flex-shrink-0" />
+                <MapPin className="w-4 h-4 text-cyan-400 flex-shrink-0" />
                 <div>
                   <div className="text-[10px] text-slate-500 uppercase">LOCATION</div>
                   <div className="font-semibold text-white">Bengaluru, India</div>
@@ -109,7 +109,7 @@ export default function AboutSection() {
               </div>
 
               <div className="flex items-center gap-3 text-xs font-mono text-slate-300 pb-3 border-b border-white/5">
-                <Briefcase className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                <Briefcase className="w-4 h-4 text-teal-400 flex-shrink-0" />
                 <div>
                   <div className="text-[10px] text-slate-500 uppercase">EXPERIENCE</div>
                   <div className="font-semibold text-white">2+ Years in Production</div>
@@ -131,7 +131,7 @@ export default function AboutSection() {
         {/* 4 Architectural Pillars: Placed HORIZONTALLY IN A ROW */}
         <div>
           <div className="text-xs font-mono uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-purple-400" />
+            <span className="w-2 h-2 rounded-full bg-cyan-400" />
             <span>Core Engineering Specializations</span>
           </div>
 
@@ -152,10 +152,10 @@ export default function AboutSection() {
                     <span className="text-[10px] font-mono text-slate-500">0{idx + 1}</span>
                   </div>
 
-                  <h4 className="text-sm sm:text-base font-bold text-white group-hover:text-purple-300 transition-colors">
+                  <h4 className="text-sm sm:text-base font-bold text-white group-hover:text-cyan-300 transition-colors">
                     {pillar.title}
                   </h4>
-                  <div className="text-[11px] font-mono text-purple-400 mb-2.5">
+                  <div className="text-[11px] font-mono text-cyan-400 mb-2.5">
                     {pillar.subtitle}
                   </div>
 

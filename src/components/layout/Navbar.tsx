@@ -74,13 +74,13 @@ export default function Navbar({ onOpenResume, onOpenCommand }: NavbarProps) {
             href="#"
             className="group flex items-center gap-3 transition-transform hover:scale-[1.02]"
           >
-            <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500 p-[1px] shadow-lg shadow-purple-500/20">
-              <div className="w-full h-full bg-[#07070a] rounded-[11px] flex items-center justify-center font-bold text-white tracking-widest text-sm group-hover:bg-transparent transition-colors">
+            <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 via-teal-500 to-emerald-400 p-[1px] shadow-lg shadow-cyan-500/20">
+              <div className="w-full h-full bg-[#060913] rounded-[11px] flex items-center justify-center font-bold text-white tracking-widest text-sm group-hover:bg-transparent transition-colors">
                 AR
               </div>
             </div>
             <div className="flex flex-col">
-              <span className="font-extrabold text-sm sm:text-base tracking-wider text-white group-hover:text-purple-300 transition-colors">
+              <span className="font-extrabold text-sm sm:text-base tracking-wider text-white group-hover:text-cyan-300 transition-colors">
                 {PERSONAL_INFO.name}
               </span>
               <div className="flex items-center gap-1.5 text-[11px] text-emerald-400 font-mono">
@@ -94,7 +94,7 @@ export default function Navbar({ onOpenResume, onOpenCommand }: NavbarProps) {
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1 px-4 py-1.5 rounded-full bg-[#0f101d]/60 backdrop-blur-md border border-white/10 shadow-inner shadow-purple-500/5">
+          <nav className="hidden md:flex items-center gap-1 px-4 py-1.5 rounded-full bg-[#080e1c]/70 backdrop-blur-md border border-white/10 shadow-inner shadow-cyan-500/5">
             {navLinks.map((link) => {
               const isActive = activeSection === link.href.replace("#", "");
               return (
@@ -103,7 +103,7 @@ export default function Navbar({ onOpenResume, onOpenCommand }: NavbarProps) {
                   href={link.href}
                   className={`px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wide transition-all ${
                     isActive
-                      ? "text-white bg-white/10 shadow-sm"
+                      ? "text-white bg-white/10 shadow-sm border border-cyan-500/30"
                       : "text-slate-400 hover:text-white hover:bg-white/5"
                   }`}
                 >
@@ -121,7 +121,7 @@ export default function Navbar({ onOpenResume, onOpenCommand }: NavbarProps) {
               className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-slate-300 transition-all cursor-pointer group"
               title="Open Command Palette (Ctrl+K)"
             >
-              <Search className="w-3.5 h-3.5 text-purple-400 group-hover:rotate-12 transition-transform" />
+              <Search className="w-3.5 h-3.5 text-cyan-400 group-hover:rotate-12 transition-transform" />
               <span className="hidden lg:inline text-slate-400">Search</span>
               <kbd className="hidden lg:inline px-1.5 py-0.5 rounded bg-black/40 border border-white/10 font-mono text-[10px] text-slate-400">
                 ⌘K
@@ -131,7 +131,7 @@ export default function Navbar({ onOpenResume, onOpenCommand }: NavbarProps) {
             {/* Resume Button */}
             <button
               onClick={onOpenResume}
-              className="relative inline-flex items-center gap-2 px-4 py-1.5 rounded-xl font-medium text-xs text-white bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 hover:opacity-95 shadow-md shadow-purple-500/25 transition-all transform hover:-translate-y-0.5 cursor-pointer active:translate-y-0"
+              className="relative inline-flex items-center gap-2 px-4 py-1.5 rounded-xl font-bold text-xs text-slate-950 bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 hover:opacity-95 shadow-md shadow-cyan-500/25 transition-all transform hover:-translate-y-0.5 cursor-pointer active:translate-y-0"
             >
               <FileText className="w-3.5 h-3.5" />
               <span>Resume</span>
